@@ -44,7 +44,7 @@ Please run `python system_health_check.py` and paste the output:
 [Paste system health check output here]
 ```
 
-## 📝 Error Logs
+##  Error Logs
 Please include relevant error messages or logs:
 
 ```

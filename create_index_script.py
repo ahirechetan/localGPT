@@ -205,7 +205,7 @@ class IndexCreator:
         
         # Create the index
         try:
-            print("\n🔥 Creating index...")
+            print("\n Creating index...")
             
             # Create index record in database
             index_id = self.db.create_index(

@@ -196,7 +196,7 @@ class BatchIndexingDemo:
     
     def demonstrate_features(self):
         """Demonstrate various indexing features."""
-        print("\n🎯 Batch Indexing Demo Features:")
+        print("\n Batch Indexing Demo Features:")
         print("=" * 50)
         
         # Show configuration
@@ -326,7 +326,7 @@ def create_sample_config():
         json.dump(sample_config, f, indent=2)
     
     print(f" Sample configuration created: {config_filename}")
-    print(f"📝 Edit this file to customize your batch indexing setup")
+    print(f" Edit this file to customize your batch indexing setup")
     print(f" Run: python demo_batch_indexing.py --config {config_filename}")
 
 

@@ -98,7 +98,7 @@ We use a feature branch workflow:
    # Create pull request on GitHub
    ```
 
-## 🎯 Types of Contributions
+##  Types of Contributions
 
 ### 🐛 Bug Fixes
 - Check existing issues first
@@ -123,7 +123,7 @@ We use a feature branch workflow:
 - Add performance benchmarks
 - Test edge cases
 
-## 📝 Coding Standards
+##  Coding Standards
 
 ### Python Code Style
 
@@ -248,7 +248,7 @@ test('sends message when form is submitted', async () => {
 });
 ```
 
-## 📖 Documentation Standards
+## Documentation Standards
 
 ### Code Documentation
 ```python
@@ -412,7 +412,7 @@ We use semantic versioning (semver):
 - **Documentation**: Check existing docs first
 - **Code Review**: Provide thoughtful, actionable feedback
 
-## 🎯 Project Priorities
+##  Project Priorities
 
 ### Current Focus Areas
 1. **Performance Optimization**: Improving indexing and retrieval speed

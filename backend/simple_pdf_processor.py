@@ -40,7 +40,7 @@ class SimplePDFProcessor:
             pdf_file = BytesIO(pdf_bytes)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             
-            print(f"📖 PDF has {len(pdf_reader.pages)} pages")
+            print(f" PDF has {len(pdf_reader.pages)} pages")
             
             text = ""
             for page_num, page in enumerate(pdf_reader.pages):
@@ -76,7 +76,7 @@ class SimplePDFProcessor:
                 "filename": filename
             }
         
-        print(f"📝 Extracted {len(text)} characters from {filename}")
+        print(f" Extracted {len(text)} characters from {filename}")
         
         # Store in database
         document_id = str(uuid.uuid4())

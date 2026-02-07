@@ -1,10 +1,10 @@
-## 📝 Description
+##  Description
 
 Brief description of what this PR does.
 
 Fixes #(issue number) <!-- If applicable -->
 
-## 🎯 Type of Change
+##  Type of Change
 
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ]  New feature (non-breaking change which adds functionality)

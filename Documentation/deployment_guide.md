@@ -6,7 +6,7 @@ This guide provides comprehensive instructions for deploying the RAG system usin
 
 ---
 
-## 🎯 Deployment Options
+##  Deployment Options
 
 ### Option 1: Docker Deployment (Production) 🐳
 - **Best for**: Production environments, containerized deployments, scaling

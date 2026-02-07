@@ -197,7 +197,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                             # We'll need to add this endpoint to the backend, for now let's make a direct database call
                             # This is a temporary solution until we add a proper API endpoint
                             db.update_session_title(session_id, title)
-                            print(f"📝 Updated session title to: {title}")
+                            print(f" Updated session title to: {title}")
                             
                             # 💾 STORE USER MESSAGE: Add the user message to the database
                             user_message_id = db.add_message(session_id, query, "user")
@@ -356,7 +356,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                             # We'll need to add this endpoint to the backend, for now let's make a direct database call
                             # This is a temporary solution until we add a proper API endpoint
                             db.update_session_title(session_id, title)
-                            print(f"📝 Updated session title to: {title}")
+                            print(f" Updated session title to: {title}")
                             
                             # 💾 STORE USER MESSAGE: Add the user message to the database
                             user_message_id = db.add_message(session_id, query, "user")

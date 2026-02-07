@@ -288,7 +288,7 @@ class RetrievalPipeline:
                 if self.cache_scope == "session" and cached_data.get("session_id") != session_id:
                     continue
                 
-                print(f"🎯 Cache hit: {similarity:.3f} similarity")
+                print(f" Cache hit: {similarity:.3f} similarity")
                 return cached_data["result"]
         
         return None

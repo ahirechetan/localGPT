@@ -1,4 +1,4 @@
-# ⚡ Quick Start Guide - RAG System
+#  Quick Start Guide - RAG System
 
 _Get up and running in 5 minutes!_
 
@@ -151,7 +151,7 @@ Open your browser to: **http://localhost:3000**
 
 ---
 
-## 🎯 First Use Guide
+##  First Use Guide
 
 ### 1. Create a Chat Session
 - Click "New Chat" in the interface
@@ -308,7 +308,7 @@ You're ready to start using LocalGPT!
 1. **📚 Upload Documents**: Add your PDF files to create indexes
 2. ** Start Chatting**: Ask questions about your documents
 3. ** Customize**: Explore different models and settings
-4. **📖 Learn More**: Check the full documentation below
+4. ** Learn More**: Check the full documentation below
 
 ### 📁 Key Files
 
@@ -323,7 +323,7 @@ rag-system/
 └── 📁 rag_system/              # Core system code
 ```
 
-### 📖 Additional Resources
+### Additional Resources
 
 - **🏗️ Architecture**: See `Documentation/architecture_overview.md`
 - ** Configuration**: See `Documentation/system_overview.md`  

@@ -21,7 +21,7 @@ from rag_system.utils.ollama_client import OllamaClient
 # All components should reference these configurations to ensure consistency.
 
 # ============================================================================
-# 🎯 MASTER MODEL CONFIGURATION
+#  MASTER MODEL CONFIGURATION
 # ============================================================================
 # All model configurations are centralized here to prevent conflicts
 
@@ -74,11 +74,11 @@ PIPELINE_CONFIGS = {
                 "graph_path": "./index_store/graph/knowledge_graph.gml"
             }
         },
-        # 🎯 EMBEDDING MODEL: Uses HuggingFace Qwen model directly
+        #  EMBEDDING MODEL: Uses HuggingFace Qwen model directly
         "embedding_model_name": EXTERNAL_MODELS["embedding_model"],
-        # 🎯 VISION MODEL: For multimodal capabilities  
+        #  VISION MODEL: For multimodal capabilities  
         "vision_model_name": EXTERNAL_MODELS["vision_model"],
-        # 🎯 RERANKER: AI-powered reranking with ColBERT
+        #  RERANKER: AI-powered reranking with ColBERT
         "reranker": {
             "enabled": True, 
             "type": "ai",

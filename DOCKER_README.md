@@ -80,7 +80,7 @@ open http://localhost:3000
 - **Health Check**: HTTP GET to /models
 - **Memory**: ~2GB (varies with model usage)
 
-## 📂 Volume Mounts & Data
+##  Volume Mounts & Data
 
 ### Persistent Data
 - `./lancedb/` → Vector database storage
@@ -115,7 +115,7 @@ The system uses these models by default:
 - **Generation**: `qwen3:0.6b` (fast) or `qwen3:8b` (high quality)
 - **Reranking**: Built-in cross-encoder
 
-## 🎯 Management Commands
+##  Management Commands
 
 ### Start/Stop Services
 ```bash

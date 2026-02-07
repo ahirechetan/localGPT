@@ -22,7 +22,7 @@ check_local_ollama() {
 # Function to start with local Ollama
 start_with_local_ollama() {
     echo " Starting LocalGPT containers (using local Ollama)..."
-    echo "📝 Note: Make sure your local Ollama is running on port 11434"
+    echo " Note: Make sure your local Ollama is running on port 11434"
     
     # Use the docker.env file for configuration
     docker compose --env-file docker.env up --build -d
@@ -35,7 +35,7 @@ start_with_local_ollama() {
     echo "🤖 Ollama: http://localhost:11434 (local)"
     echo ""
     echo " Check container status: docker compose ps"
-    echo "📝 View logs: docker compose logs -f"
+    echo " View logs: docker compose logs -f"
     echo " Stop services: docker compose down"
 }
 
@@ -58,7 +58,7 @@ start_with_container_ollama() {
     echo ""
     echo "⏳ Note: First startup may take longer as Ollama container initializes"
     echo " Check container status: docker compose --profile with-ollama ps"
-    echo "📝 View logs: docker compose --profile with-ollama logs -f"
+    echo " View logs: docker compose --profile with-ollama logs -f"
     echo " Stop services: docker compose --profile with-ollama down"
 }
 
@@ -90,7 +90,7 @@ stop_containers() {
 
 # Function to show logs
 show_logs() {
-    echo "📝 Showing container logs (Ctrl+C to exit)..."
+    echo " Showing container logs (Ctrl+C to exit)..."
     if docker compose ps | grep -q "rag-ollama"; then
         docker compose --profile with-ollama logs -f
     else

@@ -49,7 +49,7 @@ Watch this [video](https://youtu.be/JTbtGH3secI) to get started with LocalGPT.
 - **API**: LocalGPT has an API that you can use for building RAG Applications.
 - **GPU, CPU, HPU & MPS Support**: Supports multiple platforms out of the box, Chat with your data using `CUDA`, `CPU`, `HPU (Intel® Gaudi®)` or `MPS` and more!
 
-### 📖 Document Processing
+### Document Processing
 - **Multi-format Support**: PDF, DOCX, TXT, Markdown, and more (Currently only PDF is supported)
 - **Contextual Enrichment**: Enhanced document understanding with AI-generated context, inspired by [Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval)
 - **Batch Processing**: Handle multiple documents simultaneously
@@ -297,7 +297,7 @@ python run_system.py --health
 
 ---
 
-## 🎯 Getting Started
+##  Getting Started
 
 ### 1. Create Your First Index
 
@@ -858,7 +858,7 @@ python run_system.py --mode dev
 3. ** Submit Code**: Follow our [development workflow](CONTRIBUTING.md#development-workflow)
 4. **📚 Improve Docs**: Help make our documentation better
 
-### 📖 Detailed Guidelines
+### Detailed Guidelines
 
 For comprehensive contributing guidelines, including:
 - Development setup and workflow

@@ -6,7 +6,7 @@ This guide provides step-by-step instructions for installing and setting up the 
 
 ---
 
-## 🎯 Installation Options
+##  Installation Options
 
 ### Option 1: Docker Deployment (Production Ready) 🐳
 - **Best for**: Production environments, isolated setups, easy management

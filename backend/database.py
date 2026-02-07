@@ -118,7 +118,7 @@ class ChatDatabase:
         conn.commit()
         conn.close()
         
-        print(f"📝 Created new session: {session_id[:8]}... - {title}")
+        print(f" Created new session: {session_id[:8]}... - {title}")
         return session_id
     
     def get_sessions(self, limit: int = 50) -> List[Dict]:
@@ -336,7 +336,7 @@ class ChatDatabase:
         ''', (idx_id, name, description, created, created, vector_table, json.dumps(metadata or {})))
         conn.commit()
         conn.close()
-        print(f"📂 Created new index '{name}' ({idx_id[:8]})")
+        print(f" Created new index '{name}' ({idx_id[:8]})")
         return idx_id
 
     def get_index(self, index_id: str) -> dict | None:
@@ -625,7 +625,7 @@ class ChatDatabase:
                     
                     self.update_index_metadata(index_id, fallback_metadata)
                     status_msg = "recent but limited inspection" if is_recent else "legacy"
-                    print(f"📝 Added fallback metadata for {status_msg} index {index_id[:8]}...")
+                    print(f" Added fallback metadata for {status_msg} index {index_id[:8]}...")
                     return fallback_metadata
                     
             except Exception as e:

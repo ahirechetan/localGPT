@@ -296,7 +296,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             # Add user message to database first
             user_message_id = db.add_message(session_id, message, "user")
             
-            # 🎯 SMART ROUTING: Decide between direct LLM vs RAG
+            #  SMART ROUTING: Decide between direct LLM vs RAG
             idx_ids = db.get_indexes_for_session(session_id)
             force_rag = bool(data.get("force_rag", False))
             use_rag = True if force_rag else self._should_use_rag(message, idx_ids)
@@ -306,8 +306,8 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
                 print(f" Using RAG pipeline for document query: '{message[:50]}...'")
                 response_text, source_docs = self._handle_rag_query(session_id, message, data, idx_ids)
             else:
-                # ⚡ --- Use Direct LLM for General Queries (FAST) ---
-                print(f"⚡ Using direct LLM for general query: '{message[:50]}...'")
+                #  --- Use Direct LLM for General Queries (FAST) ---
+                print(f" Using direct LLM for general query: '{message[:50]}...'")
                 response_text, source_docs = self._handle_direct_llm_query(session_id, message, session)
 
             # Add AI response to database
@@ -386,7 +386,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             ]
             for p in candidate_paths:
                 if os.path.exists(p):
-                    print(f"📖 Loading overviews from: {p}")
+                    print(f" Loading overviews from: {p}")
                     try:
                         with open(p, "r", encoding="utf-8") as f:
                             for line in f:
@@ -439,7 +439,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
 
     def _route_using_overviews(self, query: str, overviews: List[str]) -> bool:
         """
-        🎯 Use document overviews and LLM to make intelligent routing decisions.
+         Use document overviews and LLM to make intelligent routing decisions.
         
         Returns True if RAG should be used, False for direct LLM.
         """
@@ -490,10 +490,10 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
             
             # Parse decision
             if "USE_RAG" in decision:
-                print(f"🎯 Overview-based routing: USE_RAG for query: '{query[:50]}...'")
+                print(f" Overview-based routing: USE_RAG for query: '{query[:50]}...'")
                 return True
             elif "DIRECT_LLM" in decision:
-                print(f"⚡ Overview-based routing: DIRECT_LLM for query: '{query[:50]}...'")
+                print(f" Overview-based routing: DIRECT_LLM for query: '{query[:50]}...'")
                 return False
             else:
                 print(f" Unclear routing decision '{decision}', defaulting to RAG")
@@ -505,7 +505,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
 
     def _simple_pattern_routing(self, message: str, idx_ids: List[str]) -> bool:
         """
-        📝 FALLBACK: Simple pattern-based routing (original logic).
+         FALLBACK: Simple pattern-based routing (original logic).
         """
         message_lower = message.lower()
         
@@ -570,7 +570,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 message=message,
                 model=model,
                 conversation_history=conversation_history,
-                enable_thinking=False  # ⚡ DISABLE THINKING FOR SPEED
+                enable_thinking=False  #  DISABLE THINKING FOR SPEED
             )
             
             return response_text, []  # No source docs for direct LLM
@@ -697,7 +697,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
 
     def handle_index_documents(self, session_id: str):
         """Triggers indexing for all documents in a session."""
-        print(f"🔥 Received request to index documents for session {session_id[:8]}...")
+        print(f" Received request to index documents for session {session_id[:8]}...")
         try:
             file_paths = db.get_documents_for_session(session_id)
             if not file_paths:

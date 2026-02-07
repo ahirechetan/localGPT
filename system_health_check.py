@@ -133,7 +133,7 @@ def check_sample_query(agent):
         
         if result and 'answer' in result:
             print_status("Sample query successful", True)
-            print(f"📝 Answer preview: {result['answer'][:100]}...")
+            print(f" Answer preview: {result['answer'][:100]}...")
             print(f" Found {len(result.get('source_documents', []))} source documents")
         else:
             print_status("Query returned empty result", None)

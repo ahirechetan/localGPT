@@ -67,7 +67,7 @@ class Agent:
                             self.doc_overviews.append(rec["overview"].strip())
                     except Exception:
                         continue
-            print(f"📖 Loaded {len(self.doc_overviews)} overviews from {path}")
+            print(f" Loaded {len(self.doc_overviews)} overviews from {path}")
         except Exception as e:
             print(f"  Failed to load document overviews from {path}: {e}")
 
@@ -95,7 +95,7 @@ class Agent:
         if aggregated:
             self.doc_overviews = aggregated
             self._current_overview_session = "|".join(idx_ids)  # cache composite key so no overwrite
-            print(f"📖 Loaded {len(aggregated)} overviews for indexes {[i[:8] for i in idx_ids]}")
+            print(f" Loaded {len(aggregated)} overviews for indexes {[i[:8] for i in idx_ids]}")
         else:
             print(f"  No per-index overviews found for {idx_ids}. Using global overview file.")
             self._load_overviews(self._global_overview_path)
@@ -173,7 +173,7 @@ Latest User Query: "{query}"
         print(f" ROUTING DEBUG: Starting triage for query: '{query[:100]}...'")
         
         # 1️⃣ Fast routing using precomputed overviews (if available)
-        print(f"📖 ROUTING DEBUG: Attempting overview-based routing...")
+        print(f" ROUTING DEBUG: Attempting overview-based routing...")
         routed = self._route_via_overviews(query)
         if routed:
             print(f" ROUTING DEBUG: Overview routing decided: '{routed}'")
@@ -280,7 +280,7 @@ Respond with JSON: {{"category": "<your_choice>"}}
         #             self._current_overview_session = "GLOBAL"
         
         query_type = await self._triage_query_async(query, history)
-        print(f"🎯 ROUTING DEBUG: Final triage decision: '{query_type}'")
+        print(f" ROUTING DEBUG: Final triage decision: '{query_type}'")
         print(f"Agent Triage Decision: '{query_type}'")
         
         # Create a contextual query that includes history for most operations
@@ -640,10 +640,10 @@ FINAL ANSWER:
         """Use document overviews and a small model to decide routing.
         Returns 'rag_query', 'direct_answer', or None if unsure/disabled."""
         if not self.doc_overviews:
-            print(f"📖 ROUTING DEBUG: No document overviews available, returning None")
+            print(f" ROUTING DEBUG: No document overviews available, returning None")
             return None
         
-        print(f"📖 ROUTING DEBUG: Found {len(self.doc_overviews)} document overviews, using LLM routing...")
+        print(f" ROUTING DEBUG: Found {len(self.doc_overviews)} document overviews, using LLM routing...")
 
         # Keep prompt concise: if more than 40 overviews, take first 40
         overviews_snip = self.doc_overviews[:40]
@@ -670,10 +670,10 @@ Response:"""
         )
         try:
             raw_response = resp.get("response", "{}")
-            print(f"📖 ROUTING DEBUG: Overview LLM raw response: '{raw_response[:200]}...'")
+            print(f" ROUTING DEBUG: Overview LLM raw response: '{raw_response[:200]}...'")
             data = json.loads(raw_response)
             decision = data.get("category", "rag_query")
-            print(f"📖 ROUTING DEBUG: Overview routing final decision: '{decision}'")
+            print(f" ROUTING DEBUG: Overview routing final decision: '{decision}'")
             return decision
         except json.JSONDecodeError as e:
             print(f" ROUTING DEBUG: Overview routing JSON parsing failed: {e}, defaulting to 'rag_query'")
