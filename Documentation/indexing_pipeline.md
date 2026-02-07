@@ -501,11 +501,11 @@ def run(self, file_paths: List[str], table_name: str):
                 self._store_chunks(chunks, table_name)
                 processed_files.append(file_path)
             else:
-                print(f"⚠️ No chunks generated from {file_path}")
+                print(f" No chunks generated from {file_path}")
                 failed_files.append((file_path, "No chunks generated"))
                 
         except Exception as e:
-            print(f"❌ Error processing {file_path}: {e}")
+            print(f" Error processing {file_path}: {e}")
             failed_files.append((file_path, str(e)))
             continue  # Continue with other files
     
@@ -605,7 +605,7 @@ class IndexingPipeline:
 
 ## Current Implementation Status
 
-### Completed Features ✅
+### Completed Features 
 - DocLing-based PDF processing with OCR fallback
 - Multiple chunking strategies (DocLing, Recursive, Fixed-size)
 - Qwen3-Embedding-0.6B integration
@@ -621,7 +621,7 @@ class IndexingPipeline:
 - Advanced late-chunking optimization
 - Distributed processing support
 
-### Planned Features 📋
+### Planned Features 
 - Custom model fine-tuning pipeline
 - Real-time incremental indexing
 - Cross-document relationship extraction

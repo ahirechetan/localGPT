@@ -186,7 +186,7 @@ class ServiceManager:
     
     def check_prerequisites(self) -> bool:
         """Check if all required tools are available."""
-        self.logger.info("🔍 Checking prerequisites...")
+        self.logger.info(" Checking prerequisites...")
         
         missing_tools = []
         
@@ -200,14 +200,14 @@ class ServiceManager:
         
         # Check Node.js (optional)
         if not self._command_exists('npm'):
-            self.logger.warning("⚠️  npm not found - frontend will be disabled")
+            self.logger.warning("  npm not found - frontend will be disabled")
             self.services['frontend'].required = False
         
         if missing_tools:
-            self.logger.error(f"❌ Missing required tools: {', '.join(missing_tools)}")
+            self.logger.error(f" Missing required tools: {', '.join(missing_tools)}")
             return False
         
-        self.logger.info("✅ All prerequisites satisfied")
+        self.logger.info(" All prerequisites satisfied")
         return True
     
     def _command_exists(self, command: str) -> bool:
@@ -221,7 +221,7 @@ class ServiceManager:
     
     def ensure_models(self):
         """Ensure required Ollama models are available."""
-        self.logger.info("📥 Checking required models...")
+        self.logger.info(" Checking required models...")
         
         required_models = ['qwen3:8b', 'qwen3:0.6b']
         
@@ -233,30 +233,30 @@ class ServiceManager:
             
             for model in required_models:
                 if model not in installed_models:
-                    self.logger.info(f"📥 Pulling {model}...")
+                    self.logger.info(f" Pulling {model}...")
                     subprocess.run(['ollama', 'pull', model], 
                                  check=True, timeout=300)  # 5 min timeout
-                    self.logger.info(f"✅ {model} ready")
+                    self.logger.info(f" {model} ready")
                 else:
-                    self.logger.info(f"✅ {model} already available")
+                    self.logger.info(f" {model} already available")
                     
         except subprocess.TimeoutExpired:
-            self.logger.warning("⚠️  Model check timed out - continuing anyway")
+            self.logger.warning("  Model check timed out - continuing anyway")
         except subprocess.CalledProcessError as e:
-            self.logger.warning(f"⚠️  Could not check/pull models: {e}")
+            self.logger.warning(f"  Could not check/pull models: {e}")
     
     def start_service(self, service_name: str, config: ServiceConfig) -> bool:
         """Start a single service."""
         if service_name in self.processes:
-            self.logger.warning(f"⚠️  {service_name} already running")
+            self.logger.warning(f"  {service_name} already running")
             return True
         
         # Check if port is in use
         if self.is_port_in_use(config.port):
-            self.logger.warning(f"⚠️  Port {config.port} already in use, skipping {service_name}")
+            self.logger.warning(f"  Port {config.port} already in use, skipping {service_name}")
             return not config.required
         
-        self.logger.info(f"🔄 Starting {service_name} on port {config.port}...")
+        self.logger.info(f" Starting {service_name} on port {config.port}...")
         
         try:
             # Setup environment
@@ -292,14 +292,14 @@ class ServiceManager:
             
             # Check if process is still running
             if process.poll() is None:
-                self.logger.info(f"✅ {service_name} started successfully (PID: {process.pid})")
+                self.logger.info(f" {service_name} started successfully (PID: {process.pid})")
                 return True
             else:
-                self.logger.error(f"❌ {service_name} failed to start")
+                self.logger.error(f" {service_name} failed to start")
                 return False
                 
         except Exception as e:
-            self.logger.error(f"❌ Failed to start {service_name}: {e}")
+            self.logger.error(f" Failed to start {service_name}: {e}")
             return False
     
     def _monitor_service_logs(self, service_name: str, process: subprocess.Popen):
@@ -345,7 +345,7 @@ class ServiceManager:
     
     def start_all(self, skip_frontend: bool = False) -> bool:
         """Start all services in order."""
-        self.logger.info("🚀 Starting RAG System Components...")
+        self.logger.info(" Starting RAG System Components...")
         
         if not self.check_prerequisites():
             return False
@@ -371,17 +371,17 @@ class ServiceManager:
                         failed_services.append(service_name)
                         continue
                     else:
-                        self.logger.warning(f"⚠️  Skipping optional service: {service_name}")
+                        self.logger.warning(f"  Skipping optional service: {service_name}")
                         continue
             else:
                 if not self.start_service(service_name, config):
                     if config.required:
                         failed_services.append(service_name)
                     else:
-                        self.logger.warning(f"⚠️  Skipping optional service: {service_name}")
+                        self.logger.warning(f"  Skipping optional service: {service_name}")
         
         if failed_services:
-            self.logger.error(f"❌ Failed to start required services: {', '.join(failed_services)}")
+            self.logger.error(f" Failed to start required services: {', '.join(failed_services)}")
             return False
         
         # Print status summary
@@ -392,7 +392,7 @@ class ServiceManager:
         """Special handling for Ollama startup."""
         # Check if Ollama is already running
         if self.is_port_in_use(11434):
-            self.logger.info("✅ Ollama already running")
+            self.logger.info(" Ollama already running")
             self.ensure_models()
             return True
         
@@ -406,21 +406,21 @@ class ServiceManager:
     def _print_status_summary(self):
         """Print system status summary."""
         self.logger.info("")
-        self.logger.info("🎉 RAG System Started!")
-        self.logger.info("📊 Services Status:")
+        self.logger.info(" RAG System Started!")
+        self.logger.info(" Services Status:")
         
         for service_name, config in self.services.items():
             if service_name in self.processes or self.is_port_in_use(config.port):
-                status = "✅ Running"
+                status = " Running"
                 url = f"http://localhost:{config.port}"
                 self.logger.info(f"   • {service_name.capitalize():<10}: {status:<10} {url}")
             else:
-                self.logger.info(f"   • {service_name.capitalize():<10}: ❌ Stopped")
+                self.logger.info(f"   • {service_name.capitalize():<10}:  Stopped")
         
         self.logger.info("")
-        self.logger.info("🌐 Access your RAG system at: http://localhost:3000")
+        self.logger.info(" Access your RAG system at: http://localhost:3000")
         self.logger.info("")
-        self.logger.info("📋 Useful commands:")
+        self.logger.info(" Useful commands:")
         self.logger.info("   • Stop system:  Ctrl+C")
         self.logger.info("   • Check logs:   tail -f logs/*.log")
         self.logger.info("   • Health check: python run_system.py --health")
@@ -430,14 +430,14 @@ class ServiceManager:
         if not self.running:
             return
         
-        self.logger.info("🛑 Shutting down RAG system...")
+        self.logger.info(" Shutting down RAG system...")
         self.running = False
         
         # Stop services in reverse order
         for service_name in reversed(list(self.processes.keys())):
             self._stop_service(service_name)
         
-        self.logger.info("✅ All services stopped")
+        self.logger.info(" All services stopped")
     
     def _stop_service(self, service_name: str):
         """Stop a single service."""
@@ -445,7 +445,7 @@ class ServiceManager:
             return
         
         process = self.processes[service_name]
-        self.logger.info(f"🔄 Stopping {service_name}...")
+        self.logger.info(f" Stopping {service_name}...")
         
         try:
             # Try graceful shutdown first
@@ -459,16 +459,16 @@ class ServiceManager:
                 process.kill()
                 process.wait()
             
-            self.logger.info(f"✅ {service_name} stopped")
+            self.logger.info(f" {service_name} stopped")
             
         except Exception as e:
-            self.logger.error(f"❌ Error stopping {service_name}: {e}")
+            self.logger.error(f" Error stopping {service_name}: {e}")
         finally:
             del self.processes[service_name]
     
     def monitor(self):
         """Monitor running services and restart if needed."""
-        self.logger.info("👁️  Monitoring services... (Press Ctrl+C to stop)")
+        self.logger.info("  Monitoring services... (Press Ctrl+C to stop)")
         
         try:
             while self.running:
@@ -476,12 +476,12 @@ class ServiceManager:
                 
                 for service_name, process in list(self.processes.items()):
                     if process.poll() is not None:
-                        self.logger.warning(f"⚠️  {service_name} has stopped unexpectedly")
+                        self.logger.warning(f"  {service_name} has stopped unexpectedly")
                         
                         # Restart the service
                         config = self.services[service_name]
                         if config.required:
-                            self.logger.info(f"🔄 Restarting {service_name}...")
+                            self.logger.info(f" Restarting {service_name}...")
                             del self.processes[service_name]
                             self.start_service(service_name, config)
                         
@@ -515,13 +515,13 @@ def main():
         
         if args.stop:
             # Stop mode - kill any running processes
-            manager.logger.info("🛑 Stopping all RAG system processes...")
+            manager.logger.info(" Stopping all RAG system processes...")
             # Implementation for stopping would go here
             return
         
         if args.logs_only:
             # Logs only mode - just tail existing logs
-            manager.logger.info("📋 Showing aggregated logs... (Press Ctrl+C to stop)")
+            manager.logger.info(" Showing aggregated logs... (Press Ctrl+C to stop)")
             manager.monitor()
             return
         
@@ -529,7 +529,7 @@ def main():
         if manager.start_all(skip_frontend=args.no_frontend):
             manager.monitor()
         else:
-            manager.logger.error("❌ System startup failed")
+            manager.logger.error(" System startup failed")
             sys.exit(1)
             
     except KeyboardInterrupt:

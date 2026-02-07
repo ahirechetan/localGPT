@@ -27,7 +27,7 @@ class Agent:
         self.verifier = Verifier(llm_client, gen_model)
         self.query_decomposer = QueryDecomposer(llm_client, gen_model)
         
-        # 🚀 OPTIMIZED: TTL cache now stores embeddings for semantic matching
+        #  OPTIMIZED: TTL cache now stores embeddings for semantic matching
         self._cache_max_size = 100  # fallback size limit for manual eviction helper
         self._query_cache: TTLCache = TTLCache(maxsize=self._cache_max_size, ttl=300)
         self.semantic_cache_threshold = self.pipeline_configs.get("semantic_cache_threshold", 0.98)
@@ -35,7 +35,7 @@ class Agent:
         # Otherwise (default "global") answers can be reused across sessions.
         self.cache_scope = self.pipeline_configs.get("cache_scope", "global")  # 'global' or 'session'
         
-        # 🚀 NEW: In-memory store for conversational history per session
+        #  NEW: In-memory store for conversational history per session
         self.chat_histories: LRUCache = LRUCache(maxsize=100) # Stores history for 100 recent sessions
 
         graph_config = self.pipeline_configs.get("graph_strategy", {})
@@ -69,7 +69,7 @@ class Agent:
                         continue
             print(f"📖 Loaded {len(self.doc_overviews)} overviews from {path}")
         except Exception as e:
-            print(f"⚠️  Failed to load document overviews from {path}: {e}")
+            print(f"  Failed to load document overviews from {path}: {e}")
 
     def load_overviews_for_indexes(self, idx_ids: list[str]):
         """Aggregate overviews for the given indexes or fall back to global file."""
@@ -91,13 +91,13 @@ class Agent:
                             except json.JSONDecodeError:
                                 continue
                 except Exception as e:
-                    print(f"⚠️  Error reading {path}: {e}")
+                    print(f"  Error reading {path}: {e}")
         if aggregated:
             self.doc_overviews = aggregated
             self._current_overview_session = "|".join(idx_ids)  # cache composite key so no overwrite
             print(f"📖 Loaded {len(aggregated)} overviews for indexes {[i[:8] for i in idx_ids]}")
         else:
-            print(f"⚠️  No per-index overviews found for {idx_ids}. Using global overview file.")
+            print(f"  No per-index overviews found for {idx_ids}. Using global overview file.")
             self._load_overviews(self._global_overview_path)
             self._current_overview_session = "GLOBAL"
 
@@ -141,7 +141,7 @@ class Agent:
                 similarity = self._cosine_similarity(query_embedding, cached_embedding)
 
                 if similarity >= self.semantic_cache_threshold:
-                    print(f"🚀 Semantic cache hit! Similarity: {similarity:.3f} with cached query '{key}'")
+                    print(f" Semantic cache hit! Similarity: {similarity:.3f} with cached query '{key}'")
                     return cached_item.get('result')
             except ValueError:
                 # In case of shape mismatch, just skip
@@ -170,16 +170,16 @@ Latest User Query: "{query}"
     # ---------------- Asynchronous triage using Ollama ----------------
     async def _triage_query_async(self, query: str, history: list) -> str:
         
-        print(f"🔍 ROUTING DEBUG: Starting triage for query: '{query[:100]}...'")
+        print(f" ROUTING DEBUG: Starting triage for query: '{query[:100]}...'")
         
         # 1️⃣ Fast routing using precomputed overviews (if available)
         print(f"📖 ROUTING DEBUG: Attempting overview-based routing...")
         routed = self._route_via_overviews(query)
         if routed:
-            print(f"✅ ROUTING DEBUG: Overview routing decided: '{routed}'")
+            print(f" ROUTING DEBUG: Overview routing decided: '{routed}'")
             return routed
         else:
-            print(f"❌ ROUTING DEBUG: Overview routing returned None, falling back to LLM triage")
+            print(f" ROUTING DEBUG: Overview routing returned None, falling back to LLM triage")
 
         if history:
             # If there's history, the query is likely a follow-up, so we default to RAG.
@@ -215,7 +215,7 @@ Respond with JSON: {{"category": "<your_choice>"}}
             print(f"🤖 ROUTING DEBUG: LLM fallback triage decided: '{decision}'")
             return decision
         except json.JSONDecodeError:
-            print(f"❌ ROUTING DEBUG: LLM fallback triage JSON parsing failed, defaulting to 'rag_query'")
+            print(f" ROUTING DEBUG: LLM fallback triage JSON parsing failed, defaulting to 'rag_query'")
             return "rag_query"
 
     def _run_graph_query(self, query: str, history: list) -> Dict[str, Any]:
@@ -264,10 +264,10 @@ Respond with JSON: {{"category": "<your_choice>"}}
         if event_callback:
             event_callback("analyze", {"query": query})
         
-        # 🚀 NEW: Get conversation history
+        #  NEW: Get conversation history
         history = self.chat_histories.get(session_id, []) if session_id else []
         
-        # 🔄 Refresh overviews for this session if available
+        #  Refresh overviews for this session if available
         # if session_id and session_id != getattr(self, "_current_overview_session", None):
         #     candidate_path = os.path.join("index_store", "overviews", f"{session_id}.jsonl")
         #     if os.path.exists(candidate_path):
@@ -304,29 +304,29 @@ Respond with JSON: {{"category": "<your_choice>"}}
         # --- Apply runtime retrieval configuration overrides ---
         if retrieval_k is not None:
             self.retrieval_pipeline.config["retrieval_k"] = retrieval_k
-            print(f"🔍 Retrieval K set to: {retrieval_k}")
+            print(f" Retrieval K set to: {retrieval_k}")
             
         if context_window_size is not None:
             self.retrieval_pipeline.config["context_window_size"] = context_window_size
-            print(f"🔍 Context window size set to: {context_window_size}")
+            print(f" Context window size set to: {context_window_size}")
             
         if reranker_top_k is not None:
             rr_cfg = self.retrieval_pipeline.config.setdefault("reranker", {})
             rr_cfg["top_k"] = reranker_top_k
-            print(f"🔍 Reranker top K set to: {reranker_top_k}")
+            print(f" Reranker top K set to: {reranker_top_k}")
             
         if search_type is not None:
             retrieval_cfg = self.retrieval_pipeline.config.setdefault("retrieval", {})
             retrieval_cfg["search_type"] = search_type
-            print(f"🔍 Search type set to: {search_type}")
+            print(f" Search type set to: {search_type}")
             
         if dense_weight is not None:
             dense_cfg = self.retrieval_pipeline.config.setdefault("retrieval", {}).setdefault("dense", {})
             dense_cfg["weight"] = dense_weight
-            print(f"🔍 Dense search weight set to: {dense_weight}")
+            print(f" Dense search weight set to: {dense_weight}")
 
         query_embedding = None
-        # 🚀 OPTIMIZED: Semantic Cache Check
+        #  OPTIMIZED: Semantic Cache Check
         if query_type != "direct_answer":
             text_embedder = self.retrieval_pipeline._get_text_embedder()
             if text_embedder:
@@ -348,7 +348,7 @@ Respond with JSON: {{"category": "<your_choice>"}}
                     return cached_result
 
         if query_type == "direct_answer":
-            print(f"✅ ROUTING DEBUG: Executing DIRECT_ANSWER path")
+            print(f" ROUTING DEBUG: Executing DIRECT_ANSWER path")
             if event_callback:
                 event_callback("direct_answer", {})
 
@@ -378,12 +378,12 @@ Respond with JSON: {{"category": "<your_choice>"}}
             result = {"answer": final_answer, "source_documents": []}
         
         elif query_type == "graph_query" and hasattr(self, 'graph_retriever'):
-            print(f"✅ ROUTING DEBUG: Executing GRAPH_QUERY path")
+            print(f" ROUTING DEBUG: Executing GRAPH_QUERY path")
             result = self._run_graph_query(query, history)
 
         # --- RAG Query Processing with Optional Query Decomposition ---
         else: # Default to rag_query
-            print(f"✅ ROUTING DEBUG: Executing RAG_QUERY path (query_type='{query_type}')")
+            print(f" ROUTING DEBUG: Executing RAG_QUERY path (query_type='{query_type}')")
             query_decomp_config = self.pipeline_configs.get("query_decomposition", {})
             decomp_enabled = query_decomp_config.get("enabled", False)
             if query_decompose is not None:
@@ -468,7 +468,7 @@ Respond with JSON: {{"category": "<your_choice>"}}
                             i, sub_query = future_to_query[future]
                             try:
                                 sub_result = future.result()
-                                print(f"✅ Sub-Query {i+1} completed: '{sub_query}'")
+                                print(f" Sub-Query {i+1} completed: '{sub_query}'")
 
                                 if event_callback:
                                     event_callback("sub_query_result", {
@@ -495,10 +495,10 @@ Respond with JSON: {{"category": "<your_choice>"}}
                                             all_source_docs.append(doc)
                                             citations_seen.add(doc['chunk_id'])
                             except Exception as e:
-                                print(f"❌ Sub-Query {i+1} failed: '{sub_query}' - {e}")
+                                print(f" Sub-Query {i+1} failed: '{sub_query}' - {e}")
 
                     parallel_time = time.time() - start_time_inner
-                    print(f"🚀 Parallel processing completed in {parallel_time:.2f}s")
+                    print(f" Parallel processing completed in {parallel_time:.2f}s")
 
                     # Emit retrieval_done and rerank_done after all sub-queries are processed
                     if event_callback:
@@ -612,16 +612,16 @@ FINAL ANSWER:
                     result['answer'] += f" [Warning: Low confidence. Groundedness: {verification.is_grounded}]"
             else:
                 # Skip appending any verifier note – 0 likely indicates a parser error
-                print("⚠️  Verifier returned 0 confidence – likely JSON parse error; omitting tags.")
+                print("  Verifier returned 0 confidence – likely JSON parse error; omitting tags.")
         else:
-            print("🚀 Skipping verification for speed or lack of sources")
+            print(" Skipping verification for speed or lack of sources")
         
-        # 🚀 NEW: Update history
+        #  NEW: Update history
         if session_id:
             history.append({"query": query, "answer": result['answer']})
             self.chat_histories[session_id] = history
             
-        # 🚀 OPTIMIZED: Cache the result for future queries
+        #  OPTIMIZED: Cache the result for future queries
         if query_type != "direct_answer" and query_embedding is not None:
             cache_key = raw_query  # Key is for logging/debugging
             self._query_cache[cache_key] = {
@@ -631,7 +631,7 @@ FINAL ANSWER:
             }
         
         total_time = time.time() - start_time
-        print(f"🚀 Total query processing time: {total_time:.2f}s")
+        print(f" Total query processing time: {total_time:.2f}s")
         
         return result
 
@@ -676,5 +676,5 @@ Response:"""
             print(f"📖 ROUTING DEBUG: Overview routing final decision: '{decision}'")
             return decision
         except json.JSONDecodeError as e:
-            print(f"❌ ROUTING DEBUG: Overview routing JSON parsing failed: {e}, defaulting to 'rag_query'")
+            print(f" ROUTING DEBUG: Overview routing JSON parsing failed: {e}, defaulting to 'rag_query'")
             return "rag_query"

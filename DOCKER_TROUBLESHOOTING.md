@@ -20,18 +20,18 @@ curl http://localhost:11434/api/tags
 ./start-docker.sh status
 
 # Test all endpoints
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 ```
 
 ### Expected Success Output
 ```
-✅ Frontend OK
-✅ Backend OK
-✅ RAG API OK
-✅ Ollama OK
+ Frontend OK
+ Backend OK
+ RAG API OK
+ Ollama OK
 ```
 
 ---
@@ -277,7 +277,7 @@ print('Database initialized')
 
 ---
 
-## 🔍 Advanced Debugging
+##  Advanced Debugging
 
 ### Container-Level Debugging
 
@@ -294,14 +294,14 @@ docker compose exec rag-api python -c "
 import sys
 print('Python version:', sys.version)
 from rag_system.main import get_agent
-print('✅ RAG system imports work')
+print(' RAG system imports work')
 "
 
 # Backend container
 docker compose exec backend bash
 python -c "
 from backend.database import ChatDatabase
-print('✅ Database imports work')
+print(' Database imports work')
 "
 
 # Frontend container  
@@ -427,22 +427,22 @@ echo "⏳ Waiting for services to start..."
 sleep 60
 
 # Test endpoints
-echo "🔍 Testing endpoints..."
-curl -f http://localhost:3000 && echo "✅ Frontend OK" || echo "❌ Frontend FAIL"
-curl -f http://localhost:8000/health && echo "✅ Backend OK" || echo "❌ Backend FAIL"  
-curl -f http://localhost:8001/models && echo "✅ RAG API OK" || echo "❌ RAG API FAIL"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK" || echo "❌ Ollama FAIL"
+echo " Testing endpoints..."
+curl -f http://localhost:3000 && echo " Frontend OK" || echo " Frontend FAIL"
+curl -f http://localhost:8000/health && echo " Backend OK" || echo " Backend FAIL"  
+curl -f http://localhost:8001/models && echo " RAG API OK" || echo " RAG API FAIL"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK" || echo " Ollama FAIL"
 
 # Test container health
-echo "🔍 Checking container health..."
+echo " Checking container health..."
 docker compose ps
 
-echo "🎉 Health test complete!"
+echo " Health test complete!"
 ```
 
 ---
 
-## 🔄 Recovery Procedures
+##  Recovery Procedures
 
 ### Complete System Reset
 
@@ -458,7 +458,7 @@ docker system prune -f
 ./start-docker.sh
 ```
 
-#### Hard Reset (⚠️ Deletes all data)
+#### Hard Reset ( Deletes all data)
 ```bash
 # Stop everything
 ./start-docker.sh stop
@@ -493,7 +493,7 @@ rm -rf shared_uploads/*
 
 ---
 
-## 📊 Performance Optimization
+##  Performance Optimization
 
 ### Resource Monitoring
 ```bash
@@ -584,20 +584,20 @@ docker compose logs > docker-errors.log 2>&1
 
 ---
 
-## ✅ Success Checklist
+##  Success Checklist
 
 Your Docker deployment is working correctly when:
 
-- ✅ `docker version` shows Docker is running
-- ✅ `curl http://localhost:11434/api/tags` shows Ollama is accessible
-- ✅ `./start-docker.sh status` shows all containers healthy
-- ✅ All health check URLs return 200 OK
-- ✅ You can access the frontend at http://localhost:3000
-- ✅ You can create document indexes successfully
-- ✅ You can chat with your documents
-- ✅ No error messages in container logs
+-  `docker version` shows Docker is running
+-  `curl http://localhost:11434/api/tags` shows Ollama is accessible
+-  `./start-docker.sh status` shows all containers healthy
+-  All health check URLs return 200 OK
+-  You can access the frontend at http://localhost:3000
+-  You can create document indexes successfully
+-  You can chat with your documents
+-  No error messages in container logs
 
-**If all boxes are checked, your Docker deployment is successful! 🎉**
+**If all boxes are checked, your Docker deployment is successful! **
 
 ---
 

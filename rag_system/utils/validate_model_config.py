@@ -27,13 +27,13 @@ from rag_system.main import (
 def print_header(title: str):
     """Print a formatted header."""
     print(f"\n{'='*60}")
-    print(f"🔍 {title}")
+    print(f" {title}")
     print(f"{'='*60}")
 
 def print_section(title: str):
     """Print a formatted section header.""" 
     print(f"\n{'─'*40}")
-    print(f"📋 {title}")
+    print(f" {title}")
     print(f"{'─'*40}")
 
 def validate_configuration_consistency():
@@ -53,11 +53,11 @@ def validate_configuration_consistency():
     print(f"Fast Config: {fast_embedding}")
     
     if default_embedding != external_embedding:
-        errors.append(f"❌ Embedding model mismatch: default={default_embedding}, external={external_embedding}")
+        errors.append(f" Embedding model mismatch: default={default_embedding}, external={external_embedding}")
     elif default_embedding != fast_embedding:
-        errors.append(f"❌ Embedding model mismatch: default={default_embedding}, fast={fast_embedding}")
+        errors.append(f" Embedding model mismatch: default={default_embedding}, fast={fast_embedding}")
     else:
-        print("✅ Embedding models are consistent")
+        print(" Embedding models are consistent")
     
     # 2. Check reranker model consistency
     print_section("Reranker Model Consistency")
@@ -68,9 +68,9 @@ def validate_configuration_consistency():
     print(f"External Models: {external_reranker}")
     
     if default_reranker != external_reranker:
-        errors.append(f"❌ Reranker model mismatch: default={default_reranker}, external={external_reranker}")
+        errors.append(f" Reranker model mismatch: default={default_reranker}, external={external_reranker}")
     else:
-        print("✅ Reranker models are consistent")
+        print(" Reranker models are consistent")
     
     # 3. Check vision model consistency
     print_section("Vision Model Consistency")
@@ -81,9 +81,9 @@ def validate_configuration_consistency():
     print(f"External Models: {external_vision}")
     
     if default_vision != external_vision:
-        errors.append(f"❌ Vision model mismatch: default={default_vision}, external={external_vision}")
+        errors.append(f" Vision model mismatch: default={default_vision}, external={external_vision}")
     else:
-        print("✅ Vision models are consistent")
+        print(" Vision models are consistent")
     
     return errors
 
@@ -112,7 +112,7 @@ def print_model_usage_map():
             "Used In": ["Agent Loop", "Answer Synthesis", "Query Decomposition", "Verification"],
             "Component": "OllamaClient"
         },
-        "🚀 Enrichment/Routing": {
+        " Enrichment/Routing": {
             "Model": OLLAMA_CONFIG["enrichment_model"],
             "Used In": ["Query Routing", "Document Overview Analysis"],
             "Component": "Agent Loop (_route_via_overviews)"
@@ -122,7 +122,7 @@ def print_model_usage_map():
             "Used In": ["Hybrid Search", "Document Reranking", "AI Reranker"],
             "Component": "ColBERT (rerankers-lib) or QwenReranker"
         },
-        "👁️ Vision": {
+        " Vision": {
             "Model": EXTERNAL_MODELS["vision_model"],
             "Used In": ["Multimodal Processing", "Image Embeddings"],
             "Component": "Vision Pipeline (when enabled)"
@@ -142,11 +142,11 @@ def test_validation_function():
     try:
         result = validate_model_config()
         if result:
-            print("✅ validate_model_config() passed successfully!")
+            print(" validate_model_config() passed successfully!")
         else:
-            print("❌ validate_model_config() returned False")
+            print(" validate_model_config() returned False")
     except Exception as e:
-        print(f"❌ validate_model_config() failed with error: {e}")
+        print(f" validate_model_config() failed with error: {e}")
         return False
     
     return True
@@ -168,9 +168,9 @@ def check_pipeline_configurations():
         
         for key in required:
             if key in config:
-                print(f"  ✅ {key}: {type(config[key]).__name__}")
+                print(f"   {key}: {type(config[key]).__name__}")
             else:
-                error_msg = f"❌ Missing required key '{key}' in {config_name} config"
+                error_msg = f" Missing required key '{key}' in {config_name} config"
                 errors.append(error_msg)  
                 print(f"  {error_msg}")
     
@@ -178,7 +178,7 @@ def check_pipeline_configurations():
 
 def main():
     """Run all validation checks."""
-    print("🚀 Starting Model Configuration Validation")
+    print(" Starting Model Configuration Validation")
     print(f"Python Path: {sys.path[0]}")
     
     all_errors = []
@@ -197,17 +197,17 @@ def main():
     print_header("VALIDATION SUMMARY")
     
     if all_errors:
-        print("❌ VALIDATION FAILED - Issues Found:")
+        print(" VALIDATION FAILED - Issues Found:")
         for error in all_errors:
             print(f"  {error}")
         return 1
     elif not validation_passed:
-        print("❌ VALIDATION FAILED - validate_model_config() function failed")
+        print(" VALIDATION FAILED - validate_model_config() function failed")
         return 1
     else:
-        print("✅ ALL VALIDATIONS PASSED!")
-        print("\n🎉 Your model configuration is consistent and properly structured!")
-        print("\n📋 Summary:")
+        print(" ALL VALIDATIONS PASSED!")
+        print("\n Your model configuration is consistent and properly structured!")
+        print("\n Summary:")
         print(f"   • Embedding Model: {EXTERNAL_MODELS['embedding_model']}")
         print(f"   • Generation Model: {OLLAMA_CONFIG['generation_model']}")
         print(f"   • Enrichment Model: {OLLAMA_CONFIG['enrichment_model']}")

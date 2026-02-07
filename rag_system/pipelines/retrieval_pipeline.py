@@ -99,7 +99,7 @@ class RetrievalPipeline:
                     fusion_config=fusion_cfg,
                 )
             except Exception as e:
-                print(f"❌ Failed to initialise dense retriever: {e}")
+                print(f" Failed to initialise dense retriever: {e}")
                 self.dense_retriever = None
         return self.dense_retriever
 
@@ -111,9 +111,9 @@ class RetrievalPipeline:
                     index_path=self.storage_config["bm25_path"],
                     index_name=self.retriever_configs["bm25"]["index_name"]
                 )
-                print("✅ BM25 retriever initialized successfully")
+                print(" BM25 retriever initialized successfully")
             except Exception as e:
-                print(f"❌ Failed to initialize BM25 retriever on demand: {e}")
+                print(f" Failed to initialize BM25 retriever on demand: {e}")
                 # Keep it None so we don't try again
         return self.bm25_retriever
 
@@ -129,7 +129,7 @@ class RetrievalPipeline:
         if self.reranker is None and reranker_config.get("type") == "linear_combination":
             rerank_weight = reranker_config.get("weight", 0.5) 
             self.reranker = lancedb.rerankers.LinearCombinationReranker(weight=rerank_weight)
-            print(f"✅ Initialized LinearCombinationReranker with weight {rerank_weight}")
+            print(f" Initialized LinearCombinationReranker with weight {rerank_weight}")
         return self.reranker
 
     def _get_ai_reranker(self):
@@ -154,10 +154,10 @@ class RetrievalPipeline:
                             print(f"🔧 Lazily initializing Qwen reranker ({model_name})…")
                             self.ai_reranker = QwenReranker(model_name=model_name)
 
-                        print("✅ AI reranker initialized successfully.")
+                        print(" AI reranker initialized successfully.")
                     except Exception as e:
                         # Leave as None so the pipeline can proceed without reranking
-                        print(f"❌ Failed to initialize AI reranker: {e}")
+                        print(f" Failed to initialize AI reranker: {e}")
         return self.ai_reranker
 
     def _get_sentence_pruner(self):
@@ -298,7 +298,7 @@ ORIGINAL QUESTION: "{query}"
                     )
                     retrieved_docs.extend(lc_docs)
                 except Exception as e:
-                    print(f"⚠️  Late-chunk retrieval failed: {e}")
+                    print(f"  Late-chunk retrieval failed: {e}")
 
         if event_callback:
             event_callback("retrieval_done", {"count": len(retrieved_docs)})
@@ -332,7 +332,7 @@ ORIGINAL QUESTION: "{query}"
                         meta["latechunk_merged"] = True
                         merged_count += 1
                 except Exception as e:
-                    print(f"⚠️  Late-chunk merge failed for chunk {doc.get('chunk_id')}: {e}")
+                    print(f"  Late-chunk merge failed for chunk {doc.get('chunk_id')}: {e}")
             if merged_count:
                 print(f"🪄 Late-chunk merging applied to {merged_count} retrieved chunks.")
 
@@ -354,7 +354,7 @@ ORIGINAL QUESTION: "{query}"
                     assert 0 < pct <= 1
                     top_k = max(1, int(len(retrieved_docs) * pct))
                 except Exception:
-                    print("⚠️  Invalid top_percent value; falling back to top_k")
+                    print("  Invalid top_percent value; falling back to top_k")
                     top_k = top_k_cfg or len(retrieved_docs)
             else:
                 top_k = top_k_cfg or len(retrieved_docs)
@@ -386,7 +386,7 @@ ORIGINAL QUESTION: "{query}"
                     reranked_docs = [retrieved_docs[idx] | {"rerank_score": score} for score, idx in pairs]
 
             rerank_time = time.time() - start_rerank_time
-            print(f"✅ Reranking completed in {rerank_time:.2f}s. Refined to {len(reranked_docs)} docs.")
+            print(f" Reranking completed in {rerank_time:.2f}s. Refined to {len(reranked_docs)} docs.")
             if event_callback:
                 event_callback("rerank_done", {"count": len(reranked_docs)})
         else:

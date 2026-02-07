@@ -36,7 +36,7 @@ python run_system.py --health
 # Add any specific test commands here
 ```
 
-## 📋 Checklist
+##  Checklist
 
 ### Code Quality
 - [ ] Code follows the project's coding standards
@@ -60,14 +60,14 @@ python run_system.py --health
 
 Add screenshots to help reviewers understand the changes.
 
-## 📊 Performance Impact
+##  Performance Impact
 
 Describe any performance implications:
 - [ ] No performance impact
 - [ ] Performance improved
 - [ ] Performance may be affected (explain below)
 
-## 🔄 Migration Notes
+##  Migration Notes
 
 If this is a breaking change, describe what users need to do:
 - [ ] No migration needed

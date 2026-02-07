@@ -156,14 +156,14 @@ def create_index_simple():
         if valid_docs:
             pipeline.process_documents(valid_docs)
         
-        print(f"✅ Index '{index_name}' created successfully!")
+        print(f" Index '{index_name}' created successfully!")
         print(f"Index ID: {index_id}")
         print(f"Processed {len(valid_docs)} documents")
         
         return index_id
         
     except Exception as e:
-        print(f"❌ Error creating index: {e}")
+        print(f" Error creating index: {e}")
         import traceback
         traceback.print_exc()
         return None

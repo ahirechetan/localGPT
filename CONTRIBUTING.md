@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to LocalGPT! This guide will help you get started with contributing to our private document intelligence platform.
 
-## 🚀 Quick Start for Contributors
+##  Quick Start for Contributors
 
 ### Prerequisites
 - Python 3.8+ (we test with 3.11.5)
@@ -45,7 +45,7 @@ Thank you for your interest in contributing to LocalGPT! This guide will help yo
    python run_system.py --mode dev
    ```
 
-## 📋 Development Workflow
+##  Development Workflow
 
 ### Branch Strategy
 
@@ -454,4 +454,4 @@ For questions about contributing, please:
 3. Create a new issue with the `question` label
 4. Join our community discussions
 
-Happy coding! 🚀 
+Happy coding!  

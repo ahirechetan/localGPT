@@ -35,7 +35,7 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 echo "================================================================"
-echo "🚀 RAG System Complete Setup Script"
+echo " RAG System Complete Setup Script"
 echo "================================================================"
 echo ""
 
@@ -352,9 +352,9 @@ for service in "${services[@]}"; do
     port="${service#*:}"
     
     if curl -s -f "http://localhost:$port" &> /dev/null || curl -s -f "http://localhost:$port/health" &> /dev/null || curl -s -f "http://localhost:$port/api/tags" &> /dev/null || curl -s -f "http://localhost:$port/models" &> /dev/null; then
-        info "✅ $name service is healthy"
+        info " $name service is healthy"
     else
-        warn "⚠️ $name service may not be ready yet"
+        warn " $name service may not be ready yet"
     fi
 done
 
@@ -389,10 +389,10 @@ echo "=== RAG System Status ==="
 docker compose ps
 echo ""
 echo "=== Service Health ==="
-curl -s -f http://localhost:3000 && echo "✅ Frontend: OK" || echo "❌ Frontend: FAIL"
-curl -s -f http://localhost:8000/health && echo "✅ Backend: OK" || echo "❌ Backend: FAIL"
-curl -s -f http://localhost:8001/models && echo "✅ RAG API: OK" || echo "❌ RAG API: FAIL"
-curl -s -f http://localhost:11434/api/tags && echo "✅ Ollama: OK" || echo "❌ Ollama: FAIL"
+curl -s -f http://localhost:3000 && echo " Frontend: OK" || echo " Frontend: FAIL"
+curl -s -f http://localhost:8000/health && echo " Backend: OK" || echo " Backend: FAIL"
+curl -s -f http://localhost:8001/models && echo " RAG API: OK" || echo " RAG API: FAIL"
+curl -s -f http://localhost:11434/api/tags && echo " Ollama: OK" || echo " Ollama: FAIL"
 EOF
 chmod +x status_rag_system.sh
 
@@ -480,10 +480,10 @@ sleep 10
 
 echo ""
 echo "================================================================"
-echo "🎉 RAG System Setup Complete!"
+echo " RAG System Setup Complete!"
 echo "================================================================"
 echo ""
-echo "✅ System Status:"
+echo " System Status:"
 echo "   - Frontend: http://localhost:3000"
 echo "   - Backend API: http://localhost:8000"
 echo "   - RAG API: http://localhost:8001"
@@ -502,13 +502,13 @@ echo "   - Check status: ./status_rag_system.sh"
 echo "   - Backup data: ./backup_rag_system.sh"
 echo "   - Update system: ./update_rag_system.sh"
 echo ""
-echo "🚀 Next Steps:"
+echo " Next Steps:"
 echo "   1. Open http://localhost:3000 in your browser"
 echo "   2. Create a new chat session"
 echo "   3. Upload some PDF documents"
 echo "   4. Start asking questions about your documents!"
 echo ""
-echo "📋 System Information:"
+echo " System Information:"
 echo "   - OS: $OS"
 echo "   - Memory: ${MEMORY_GB}GB"
 echo "   - Disk Space: ${DISK_GB}GB available"

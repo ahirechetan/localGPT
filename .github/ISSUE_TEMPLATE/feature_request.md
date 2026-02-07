@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## 🚀 Feature Request
+##  Feature Request
 
 ### 📝 Is your feature request related to a problem? Please describe.
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
@@ -15,7 +15,7 @@ A clear and concise description of what the problem is. Ex. I'm always frustrate
 ### 💡 Describe the solution you'd like
 A clear and concise description of what you want to happen.
 
-### 🔄 Describe alternatives you've considered
+###  Describe alternatives you've considered
 A clear and concise description of any alternative solutions or features you've considered.
 
 ### 🎯 Use Case
@@ -24,7 +24,7 @@ Describe the specific use case or scenario where this feature would be valuable:
 - When would they use it?
 - How would it improve their workflow?
 
-### 📋 Acceptance Criteria
+###  Acceptance Criteria
 What would need to be implemented for this feature to be considered complete?
 - [ ] Criterion 1
 - [ ] Criterion 2
@@ -36,7 +36,7 @@ If you have ideas about how this could be implemented, please share:
 - Any technical considerations?
 - Potential challenges?
 
-### 📊 Priority
+###  Priority
 How important is this feature to you?
 - [ ] Critical - Blocking my use case
 - [ ] High - Would significantly improve my workflow

@@ -31,9 +31,9 @@ INDEXING_PIPELINE = get_indexing_pipeline(AGENT_MODE)
 # This avoids reloading all the models on every request.
 print("🧠 Initializing RAG Agent with MAXIMUM ACCURACY... (This may take a moment)")
 if RAG_AGENT is None:
-    print("❌ Critical error: RAG Agent could not be initialized. Exiting.")
+    print(" Critical error: RAG Agent could not be initialized. Exiting.")
     exit(1)
-print("✅ RAG Agent initialized successfully with MAXIMUM ACCURACY.")
+print(" RAG Agent initialized successfully with MAXIMUM ACCURACY.")
 # ---
 
 # Add helper near top after db & agent init
@@ -44,7 +44,7 @@ def _apply_index_embedding_model(idx_ids):
     debug_info = f"🔧 _apply_index_embedding_model called with idx_ids: {idx_ids}\n"
     
     if not idx_ids:
-        debug_info += "⚠️ No index IDs provided\n"
+        debug_info += " No index IDs provided\n"
         with open("logs/embedding_debug.log", "a") as f:
             f.write(debug_info)
         return
@@ -60,9 +60,9 @@ def _apply_index_embedding_model(idx_ids):
             rp.update_embedding_model(model)
             debug_info += f"🔧 Updated embedding model to: {model}\n"
         else:
-            debug_info += "⚠️ No embedding model found in metadata\n"
+            debug_info += " No embedding model found in metadata\n"
     except Exception as e:
-        debug_info += f"⚠️ Could not apply index embedding model: {e}\n"
+        debug_info += f" Could not apply index embedding model: {e}\n"
     
     # Write debug info to file
     with open("logs/embedding_debug.log", "a") as f:
@@ -73,43 +73,43 @@ def _get_table_name_for_session(session_id):
     logger = logging.getLogger(__name__)
     
     if not session_id:
-        logger.info("❌ No session_id provided")
+        logger.info(" No session_id provided")
         return None
     
     try:
         # Get indexes linked to this session
         idx_ids = db.get_indexes_for_session(session_id)
-        logger.info(f"🔍 Session {session_id[:8]}... has {len(idx_ids)} indexes: {idx_ids}")
+        logger.info(f" Session {session_id[:8]}... has {len(idx_ids)} indexes: {idx_ids}")
         
         if not idx_ids:
-            logger.warning(f"⚠️ No indexes found for session {session_id}")
+            logger.warning(f" No indexes found for session {session_id}")
             # Use the default table name from config instead of session-specific name
             from rag_system.main import PIPELINE_CONFIGS
             default_table = PIPELINE_CONFIGS["default"]["storage"]["text_table_name"]
-            logger.info(f"📊 Using default table '{default_table}' for session {session_id[:8]}...")
+            logger.info(f" Using default table '{default_table}' for session {session_id[:8]}...")
             return default_table
         
         # Use the first index's vector table name
         idx = db.get_index(idx_ids[0])
         if idx and idx.get('vector_table_name'):
             table_name = idx['vector_table_name']
-            logger.info(f"📊 Using table '{table_name}' for session {session_id[:8]}...")
-            print(f"📊 RAG API: Using table '{table_name}' for session {session_id[:8]}...")
+            logger.info(f" Using table '{table_name}' for session {session_id[:8]}...")
+            print(f" RAG API: Using table '{table_name}' for session {session_id[:8]}...")
             return table_name
         else:
-            logger.warning(f"⚠️ Index found but no vector table name for session {session_id}")
+            logger.warning(f" Index found but no vector table name for session {session_id}")
             # Use the default table name from config instead of session-specific name
             from rag_system.main import PIPELINE_CONFIGS
             default_table = PIPELINE_CONFIGS["default"]["storage"]["text_table_name"]
-            logger.info(f"📊 Using default table '{default_table}' for session {session_id[:8]}...")
+            logger.info(f" Using default table '{default_table}' for session {session_id[:8]}...")
             return default_table
             
     except Exception as e:
-        logger.error(f"❌ Error getting table name for session {session_id}: {e}")
+        logger.error(f" Error getting table name for session {session_id}: {e}")
         # Use the default table name from config instead of session-specific name
         from rag_system.main import PIPELINE_CONFIGS
         default_table = PIPELINE_CONFIGS["default"]["storage"]["text_table_name"]
-        logger.info(f"📊 Using default table '{default_table}' for session {session_id[:8]}...")
+        logger.info(f" Using default table '{default_table}' for session {session_id[:8]}...")
         return default_table
 
 class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
@@ -180,7 +180,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 self.send_json_response({"error": "Query is required"}, status_code=400)
                 return
 
-            # 🔄 UPDATE SESSION TITLE: If this is the first message in the session, update the title
+            #  UPDATE SESSION TITLE: If this is the first message in the session, update the title
             if session_id:
                 try:
                     # Check if this is the first message by calling the backend server
@@ -207,7 +207,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                             user_message_id = db.add_message(session_id, query, "user")
                             print(f"💾 Stored user message: {user_message_id}")
                 except Exception as e:
-                    print(f"⚠️ Failed to update session title or store user message: {e}")
+                    print(f" Failed to update session title or store user message: {e}")
                     # Continue with the request even if title update fails
 
             # Allow explicit table_name override
@@ -235,7 +235,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 if provence_threshold is not None:
                     rp_cfg.setdefault("provence", {})["threshold"] = float(provence_threshold)
 
-                # 🔄 Apply embedding model for this session (same as in agent path)
+                #  Apply embedding model for this session (same as in agent path)
                 if session_id:
                     idx_ids = db.get_indexes_for_session(session_id)
                     _apply_index_embedding_model(idx_ids)
@@ -255,7 +255,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 if provence_threshold is not None:
                     rp_cfg.setdefault("provence", {})["threshold"] = float(provence_threshold)
 
-                # 🔄 Refresh document overviews for this session
+                #  Refresh document overviews for this session
                 if session_id:
                     idx_ids = db.get_indexes_for_session(session_id)
                     _apply_index_embedding_model(idx_ids)
@@ -293,7 +293,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                     ai_message_id = db.add_message(session_id, result["answer"], "assistant")
                     print(f"💾 Stored AI response: {ai_message_id}")
                 except Exception as e:
-                    print(f"⚠️ Failed to store AI response: {e}")
+                    print(f" Failed to store AI response: {e}")
                     # Continue even if storage fails
 
         except json.JSONDecodeError:
@@ -339,7 +339,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 self.send_json_response({"error": "Query is required"}, status_code=400)
                 return
 
-            # 🔄 UPDATE SESSION TITLE: If this is the first message in the session, update the title
+            #  UPDATE SESSION TITLE: If this is the first message in the session, update the title
             if session_id:
                 try:
                     # Check if this is the first message by calling the backend server
@@ -366,7 +366,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                             user_message_id = db.add_message(session_id, query, "user")
                             print(f"💾 Stored user message: {user_message_id}")
                 except Exception as e:
-                    print(f"⚠️ Failed to update session title or store user message: {e}")
+                    print(f" Failed to update session title or store user message: {e}")
                     # Continue with the request even if title update fails
 
             # Allow explicit table_name override
@@ -414,7 +414,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                     if provence_threshold is not None:
                         rp_cfg.setdefault("provence", {})["threshold"] = float(provence_threshold)
 
-                    # 🔄 Apply embedding model for this session (same as in agent path)
+                    #  Apply embedding model for this session (same as in agent path)
                     if session_id:
                         idx_ids = db.get_indexes_for_session(session_id)
                         _apply_index_embedding_model(idx_ids)
@@ -441,7 +441,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                     if provence_threshold is not None:
                         rp_cfg.setdefault("provence", {})["threshold"] = float(provence_threshold)
 
-                    # 🔄 Refresh overviews for this session
+                    #  Refresh overviews for this session
                     if session_id:
                         idx_ids = db.get_indexes_for_session(session_id)
                         _apply_index_embedding_model(idx_ids)
@@ -481,7 +481,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                         ai_message_id = db.add_message(session_id, final_result["answer"], "assistant")
                         print(f"💾 Stored AI response: {ai_message_id}")
                     except Exception as e:
-                        print(f"⚠️ Failed to store AI response: {e}")
+                        print(f" Failed to store AI response: {e}")
                         # Continue even if storage fails
             except BrokenPipeError:
                 print("🔌 Client disconnected from SSE stream.")
@@ -491,7 +491,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 try:
                     emit("error", error_payload)
                 finally:
-                    print(f"❌ Stream error: {e}")
+                    print(f" Stream error: {e}")
 
         except json.JSONDecodeError:
             self.send_json_response({"error": "Invalid JSON"}, status_code=400)
@@ -682,7 +682,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 try:
                     db.update_index_metadata(session_id, {"embedding_model": embedding_model})
                 except Exception as e:
-                    print(f"⚠️ Could not update embedding_model metadata: {e}")
+                    print(f" Could not update embedding_model metadata: {e}")
 
         except json.JSONDecodeError:
             self.send_json_response({"error": "Invalid JSON"}, status_code=400)
@@ -710,7 +710,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 generation_models.extend(ollama_generation_models)
                 embedding_models.extend(ollama_embedding_models)
             except Exception as e:
-                print(f"⚠️ Could not get Ollama models: {e}")
+                print(f" Could not get Ollama models: {e}")
             
             # Add supported HuggingFace embedding models
             huggingface_embedding_models = [
@@ -747,7 +747,7 @@ def start_server(port=8001):
         allow_reuse_address = True
 
     with ReusableTCPServer(("", port), AdvancedRagApiHandler) as httpd:
-        print(f"🚀 Starting Advanced RAG API server on port {port}")
+        print(f" Starting Advanced RAG API server on port {port}")
         print(f"💬 Chat endpoint: http://localhost:{port}/chat")
         print(f"✨ Indexing endpoint: http://localhost:{port}/index")
         httpd.serve_forever()

@@ -21,7 +21,7 @@ export function QuickChat({ sessionId: externalSessionId, onSessionChange, class
   const [showSettings, setShowSettings] = useState(false);
   const api = chatAPI;
 
-  // 🔄 Sync prop -> state: when sidebar selects a different session, update local session and reset chat window
+  //  Sync prop -> state: when sidebar selects a different session, update local session and reset chat window
   useEffect(() => {
     if (externalSessionId && externalSessionId !== sessionId) {
       setSessionId(externalSessionId);

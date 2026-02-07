@@ -22,14 +22,14 @@ def test_ollama_connectivity():
         if is_running:
             models = client.list_models()
             print(f"Available models: {models}")
-            print("✅ Ollama connectivity test passed!")
+            print(" Ollama connectivity test passed!")
             return True
         else:
-            print("❌ Ollama connectivity test failed!")
+            print(" Ollama connectivity test failed!")
             return False
             
     except Exception as e:
-        print(f"❌ Error testing Ollama connectivity: {e}")
+        print(f" Error testing Ollama connectivity: {e}")
         return False
 
 if __name__ == "__main__":

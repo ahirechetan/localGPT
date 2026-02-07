@@ -58,16 +58,16 @@ class QwenEmbedder(EmbeddingModel):
         
         # Check for NaN or infinite values
         if np.isnan(embeddings_np).any():
-            print(f"⚠️ Warning: NaN values detected in embeddings from {self.model_name}")
+            print(f" Warning: NaN values detected in embeddings from {self.model_name}")
             # Replace NaN values with zeros
             embeddings_np = np.nan_to_num(embeddings_np, nan=0.0, posinf=0.0, neginf=0.0)
-            print(f"🔄 Replaced NaN values with zeros")
+            print(f" Replaced NaN values with zeros")
         
         if np.isinf(embeddings_np).any():
-            print(f"⚠️ Warning: Infinite values detected in embeddings from {self.model_name}")
+            print(f" Warning: Infinite values detected in embeddings from {self.model_name}")
             # Replace infinite values with zeros
             embeddings_np = np.nan_to_num(embeddings_np, nan=0.0, posinf=0.0, neginf=0.0)
-            print(f"🔄 Replaced infinite values with zeros")
+            print(f" Replaced infinite values with zeros")
         
         return embeddings_np
 
@@ -129,16 +129,16 @@ class OllamaEmbedder(EmbeddingModel):
         
         # Check for NaN or infinite values
         if np.isnan(embeddings_np).any():
-            print(f"⚠️ Warning: NaN values detected in Ollama embeddings from {self.model_name}")
+            print(f" Warning: NaN values detected in Ollama embeddings from {self.model_name}")
             # Replace NaN values with zeros
             embeddings_np = np.nan_to_num(embeddings_np, nan=0.0, posinf=0.0, neginf=0.0)
-            print(f"🔄 Replaced NaN values with zeros")
+            print(f" Replaced NaN values with zeros")
         
         if np.isinf(embeddings_np).any():
-            print(f"⚠️ Warning: Infinite values detected in Ollama embeddings from {self.model_name}")
+            print(f" Warning: Infinite values detected in Ollama embeddings from {self.model_name}")
             # Replace infinite values with zeros
             embeddings_np = np.nan_to_num(embeddings_np, nan=0.0, posinf=0.0, neginf=0.0)
-            print(f"🔄 Replaced infinite values with zeros")
+            print(f" Replaced infinite values with zeros")
         
         return embeddings_np
 

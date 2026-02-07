@@ -15,7 +15,7 @@ class SimplePDFProcessor:
         """Initialize simple PDF processor with SQLite storage"""
         self.db_path = db_path
         self.init_database()
-        print("✅ Simple PDF processor initialized")
+        print(" Simple PDF processor initialized")
     
     def init_database(self):
         """Initialize SQLite database for storing PDF content"""
@@ -50,17 +50,17 @@ class SimplePDFProcessor:
                     if page_text.strip():
                         text += f"\n--- Page {page_num + 1} ---\n"
                         text += page_text + "\n"
-                    print(f"✅ Page {page_num + 1}: extracted {len(page_text)} characters")
+                    print(f" Page {page_num + 1}: extracted {len(page_text)} characters")
                 except Exception as page_error:
-                    print(f"❌ Error on page {page_num + 1}: {str(page_error)}")
+                    print(f" Error on page {page_num + 1}: {str(page_error)}")
                     continue
             
             print(f"📄 Total extracted text: {len(text)} characters")
             return text.strip()
             
         except Exception as e:
-            print(f"❌ Error extracting text from PDF: {str(e)}")
-            print(f"❌ Error type: {type(e).__name__}")
+            print(f" Error extracting text from PDF: {str(e)}")
+            print(f" Error type: {type(e).__name__}")
             return ""
     
     def process_pdf(self, pdf_bytes: bytes, filename: str, session_id: str) -> Dict[str, Any]:
@@ -104,7 +104,7 @@ class SimplePDFProcessor:
             }
             
         except Exception as e:
-            print(f"❌ Error storing in database: {str(e)}")
+            print(f" Error storing in database: {str(e)}")
             return {
                 "success": False,
                 "error": f"Database storage failed: {str(e)}",
@@ -130,7 +130,7 @@ class SimplePDFProcessor:
             return documents
             
         except Exception as e:
-            print(f"❌ Error getting session documents: {str(e)}")
+            print(f" Error getting session documents: {str(e)}")
             return []
     
     def get_document_content(self, session_id: str) -> str:
@@ -160,7 +160,7 @@ class SimplePDFProcessor:
             return combined_content.strip()
             
         except Exception as e:
-            print(f"❌ Error getting document content: {str(e)}")
+            print(f" Error getting document content: {str(e)}")
             return ""
     
     def delete_session_documents(self, session_id: str) -> bool:
@@ -182,7 +182,7 @@ class SimplePDFProcessor:
             return deleted_count > 0
             
         except Exception as e:
-            print(f"❌ Error deleting session documents: {str(e)}")
+            print(f" Error deleting session documents: {str(e)}")
             return False
 
 
@@ -194,9 +194,9 @@ def initialize_simple_pdf_processor():
     global simple_pdf_processor
     try:
         simple_pdf_processor = SimplePDFProcessor()
-        print("✅ Global PDF processor initialized")
+        print(" Global PDF processor initialized")
     except Exception as e:
-        print(f"❌ Failed to initialize PDF processor: {str(e)}")
+        print(f" Failed to initialize PDF processor: {str(e)}")
         simple_pdf_processor = None
 
 def get_simple_pdf_processor():
@@ -211,4 +211,4 @@ if __name__ == "__main__":
     print("🧪 Testing simple PDF processor...")
     
     processor = SimplePDFProcessor()
-    print("✅ Simple PDF processor test completed!") 
+    print(" Simple PDF processor test completed!") 

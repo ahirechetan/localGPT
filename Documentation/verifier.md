@@ -1,4 +1,4 @@
-# ✅ Answer Verifier
+#  Answer Verifier
 
 _File: `rag_system/agent/verifier.py`_
 

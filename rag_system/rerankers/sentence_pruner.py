@@ -46,10 +46,10 @@ class SentencePruner:
                     self.model_name,
                     trust_remote_code=True,
                 )
-                print("✅ Provence model loaded successfully.")
+                print(" Provence model loaded successfully.")
             except Exception as e:
                 # Any failure leaves the singleton as None so callers can skip pruning.
-                print(f"❌ Failed to load Provence model: {e}. Context pruning will be skipped.")
+                print(f" Failed to load Provence model: {e}. Context pruning will be skipped.")
                 SentencePruner._model = None
 
     # ------------------------------------------------------------------
@@ -84,7 +84,7 @@ class SentencePruner:
                 if isinstance(outputs, dict):
                     outputs = [outputs]
                 if len(outputs) != len(texts):
-                    print("⚠️ Provence batch size mismatch; falling back to per-doc loop")
+                    print(" Provence batch size mismatch; falling back to per-doc loop")
                     raise ValueError
 
             pruned: List[Dict[str, Any]] = []
@@ -93,7 +93,7 @@ class SentencePruner:
                 new_text = raw if isinstance(raw, str) else " ".join(raw)  # HF model may return a list of sentences
                 pruned.append({**doc, "text": new_text})
         except Exception as e:
-            print(f"⚠️ Provence batch pruning failed ({e}); falling back to individual calls")
+            print(f" Provence batch pruning failed ({e}); falling back to individual calls")
             pruned = []
             for doc in docs:
                 text = doc.get("text", "")
@@ -106,7 +106,7 @@ class SentencePruner:
                     new_text = raw if isinstance(raw, str) else " ".join(raw)
                     pruned.append({**doc, "text": new_text})
                 except Exception as err:
-                    print(f"⚠️ Provence pruning failed for chunk {doc.get('chunk_id')}: {err}")
+                    print(f" Provence pruning failed for chunk {doc.get('chunk_id')}: {err}")
                     pruned.append(doc)
 
         return pruned 

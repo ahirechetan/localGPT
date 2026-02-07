@@ -103,7 +103,7 @@ class ChatDatabase:
         
         conn.commit()
         conn.close()
-        print("✅ Database initialized successfully")
+        print(" Database initialized successfully")
     
     def create_session(self, title: str, model: str) -> str:
         """Create a new chat session"""
@@ -422,7 +422,7 @@ class ChatDatabase:
                         db.drop_table(vector_table_name)
                         print(f"🚮 Dropped LanceDB table '{vector_table_name}'")
                 except Exception as e:
-                    print(f"⚠️ Could not drop LanceDB table '{vector_table_name}': {e}")
+                    print(f" Could not drop LanceDB table '{vector_table_name}': {e}")
         return deleted
 
     def update_index_metadata(self, index_id: str, updates: dict):
@@ -482,7 +482,7 @@ class ChatDatabase:
                             'metadata_source': 'lancedb_inspection'
                         }
                         self.update_index_metadata(index_id, inferred_metadata)
-                        print(f"⚠️ Index {index_id[:8]}... appears incomplete - vector table missing")
+                        print(f" Index {index_id[:8]}... appears incomplete - vector table missing")
                         return inferred_metadata
                     
                     # Get table and inspect schema/data
@@ -505,7 +505,7 @@ class ChatDatabase:
                         # Take only first row for inspection
                         sample_df = sample_df.head(1)
                     except Exception as e:
-                        print(f"⚠️ Could not read data from table {vector_table_name}: {e}")
+                        print(f" Could not read data from table {vector_table_name}: {e}")
                         return {}
                     
                     # Infer metadata from table structure
@@ -580,13 +580,13 @@ class ChatDatabase:
                     # Update the database with inferred metadata
                     if inferred_metadata:
                         self.update_index_metadata(index_id, inferred_metadata)
-                        print(f"🔍 Inferred metadata for index {index_id[:8]}...: {len(inferred_metadata)} fields")
+                        print(f" Inferred metadata for index {index_id[:8]}...: {len(inferred_metadata)} fields")
                     
                     return inferred_metadata
                     
                 except ImportError as import_error:
                     # RAG system modules not available - provide basic fallback metadata
-                    print(f"⚠️ RAG system modules not available for inspection: {import_error}")
+                    print(f" RAG system modules not available for inspection: {import_error}")
                     
                     # Check if this is actually a legacy index by looking at creation date
                     created_at = index_info.get('created_at', '')
@@ -629,11 +629,11 @@ class ChatDatabase:
                     return fallback_metadata
                     
             except Exception as e:
-                print(f"⚠️ Could not inspect LanceDB table for index {index_id[:8]}...: {e}")
+                print(f" Could not inspect LanceDB table for index {index_id[:8]}...: {e}")
                 return {}
                 
         except Exception as e:
-            print(f"⚠️ Failed to inspect index metadata for {index_id[:8]}...: {e}")
+            print(f" Failed to inspect index metadata for {index_id[:8]}...: {e}")
             return {}
 
 def generate_session_title(first_message: str, max_length: int = 50) -> str:
@@ -683,10 +683,10 @@ if __name__ == "__main__":
     
     # Get sessions
     sessions = db.get_sessions()
-    print(f"📋 Sessions: {len(sessions)}")
+    print(f" Sessions: {len(sessions)}")
     
     # Get stats
     stats = db.get_stats()
-    print(f"📊 Stats: {stats}")
+    print(f" Stats: {stats}")
     
-    print("✅ Database test completed!")  
+    print(" Database test completed!")  

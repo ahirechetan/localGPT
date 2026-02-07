@@ -11,37 +11,37 @@ echo "============================"
 # Function to check if local Ollama is running
 check_local_ollama() {
     if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
-        echo "✅ Local Ollama detected on port 11434"
+        echo " Local Ollama detected on port 11434"
         return 0
     else
-        echo "❌ No local Ollama detected on port 11434"
+        echo " No local Ollama detected on port 11434"
         return 1
     fi
 }
 
 # Function to start with local Ollama
 start_with_local_ollama() {
-    echo "🚀 Starting LocalGPT containers (using local Ollama)..."
+    echo " Starting LocalGPT containers (using local Ollama)..."
     echo "📝 Note: Make sure your local Ollama is running on port 11434"
     
     # Use the docker.env file for configuration
     docker compose --env-file docker.env up --build -d
     
     echo ""
-    echo "🎉 LocalGPT is starting up!"
+    echo " LocalGPT is starting up!"
     echo "📱 Frontend: http://localhost:3000"
     echo "🔧 Backend API: http://localhost:8000"
     echo "🧠 RAG API: http://localhost:8001"
     echo "🤖 Ollama: http://localhost:11434 (local)"
     echo ""
-    echo "📊 Check container status: docker compose ps"
+    echo " Check container status: docker compose ps"
     echo "📝 View logs: docker compose logs -f"
-    echo "🛑 Stop services: docker compose down"
+    echo " Stop services: docker compose down"
 }
 
 # Function to start with containerized Ollama
 start_with_container_ollama() {
-    echo "🚀 Starting LocalGPT containers (including Ollama container)..."
+    echo " Starting LocalGPT containers (including Ollama container)..."
     
     # Set environment variable for containerized Ollama
     export OLLAMA_HOST=http://ollama:11434
@@ -50,16 +50,16 @@ start_with_container_ollama() {
     docker compose --profile with-ollama up --build -d
     
     echo ""
-    echo "🎉 LocalGPT is starting up!"
+    echo " LocalGPT is starting up!"
     echo "📱 Frontend: http://localhost:3000"
     echo "🔧 Backend API: http://localhost:8000"
     echo "🧠 RAG API: http://localhost:8001"
     echo "🤖 Ollama: http://localhost:11434 (containerized)"
     echo ""
     echo "⏳ Note: First startup may take longer as Ollama container initializes"
-    echo "📊 Check container status: docker compose --profile with-ollama ps"
+    echo " Check container status: docker compose --profile with-ollama ps"
     echo "📝 View logs: docker compose --profile with-ollama logs -f"
-    echo "🛑 Stop services: docker compose --profile with-ollama down"
+    echo " Stop services: docker compose --profile with-ollama down"
 }
 
 # Function to show usage
@@ -82,10 +82,10 @@ show_usage() {
 
 # Function to stop containers
 stop_containers() {
-    echo "🛑 Stopping LocalGPT containers..."
+    echo " Stopping LocalGPT containers..."
     docker compose down
     docker compose --profile with-ollama down 2>/dev/null || true
-    echo "✅ All containers stopped"
+    echo " All containers stopped"
 }
 
 # Function to show logs
@@ -100,7 +100,7 @@ show_logs() {
 
 # Function to show status
 show_status() {
-    echo "📊 Container Status:"
+    echo " Container Status:"
     docker compose ps
     echo ""
     echo "🐳 All Docker containers:"
@@ -114,7 +114,7 @@ case "${1:-local}" in
             start_with_local_ollama
         else
             echo ""
-            echo "⚠️  No local Ollama detected. Options:"
+            echo "  No local Ollama detected. Options:"
             echo "1. Start local Ollama: 'ollama serve'"
             echo "2. Use containerized Ollama: '$0 container'"
             echo ""
@@ -123,7 +123,7 @@ case "${1:-local}" in
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 start_with_container_ollama
             else
-                echo "❌ Cancelled. Please start local Ollama or use '$0 container'"
+                echo " Cancelled. Please start local Ollama or use '$0 container'"
                 exit 1
             fi
         fi
@@ -144,7 +144,7 @@ case "${1:-local}" in
         show_usage
         ;;
     *)
-        echo "❌ Unknown option: $1"
+        echo " Unknown option: $1"
         echo ""
         show_usage
         exit 1

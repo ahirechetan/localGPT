@@ -38,7 +38,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
     if (!hasMetadata) {
       return {
         type: 'warning',
-        title: '⚠️ No Configuration Data',
+        title: ' No Configuration Data',
         message: 'This index was created before metadata tracking was implemented. Configuration details are not available.'
       };
     }
@@ -46,7 +46,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
     if (indexStatus === 'incomplete') {
       return {
         type: 'error',
-        title: '❌ Index Incomplete',
+        title: ' Index Incomplete',
         message: indexMeta.issue || 'The index appears to be incomplete or was never properly built.'
       };
     }
@@ -54,7 +54,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
     if (indexStatus === 'empty') {
       return {
         type: 'error',
-        title: '❌ Index Empty',
+        title: ' Index Empty',
         message: 'The vector table exists but contains no data. The index may need to be rebuilt.'
       };
     }
@@ -62,7 +62,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
     if (indexStatus === 'legacy') {
       return {
         type: 'warning',
-        title: '⚠️ Legacy Index',
+        title: ' Legacy Index',
         message: indexMeta.issue || 'This index was created before metadata tracking was implemented. Configuration details are not available.'
       };
     }
@@ -70,7 +70,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
     if (isInferredMetadata) {
       return {
         type: 'info',
-        title: '🔍 Metadata Inferred',
+        title: ' Metadata Inferred',
         message: 'This metadata was inferred from the vector database structure. Some configuration details may be incomplete.'
       };
     }
@@ -86,7 +86,7 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
       if (indexMeta.inspection_limitation && !hasCompleteConfig) {
         return {
           type: 'info',
-          title: '🔍 Limited Configuration Data',
+          title: ' Limited Configuration Data',
           message: 'This index is functional but detailed configuration inspection requires direct RAG system access. Basic information is shown below.'
         };
       }
@@ -204,13 +204,13 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
                   {typeof indexMeta.enable_enrich==='boolean' && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">Contextual enrichment</span>
-                      <p className="text-sm">{indexMeta.enable_enrich ? '✅ Enabled' : '❌ Disabled'}</p>
+                      <p className="text-sm">{indexMeta.enable_enrich ? ' Enabled' : ' Disabled'}</p>
                     </div>
                   )}
                   {indexMeta.has_contextual_enrichment && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">Contextual enrichment</span>
-                      <p className="text-sm">🔍 Detected</p>
+                      <p className="text-sm"> Detected</p>
                     </div>
                   )}
                 </div>
@@ -220,25 +220,25 @@ export default function SessionIndexInfo({ sessionId, onClose }: Props) {
                   {typeof indexMeta.latechunk==='boolean' && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">Late-chunk vectors</span>
-                      <p className="text-sm">{indexMeta.latechunk ? '✅ Enabled' : '❌ Disabled'}</p>
+                      <p className="text-sm">{indexMeta.latechunk ? ' Enabled' : ' Disabled'}</p>
                     </div>
                   )}
                   {typeof indexMeta.docling_chunk==='boolean' && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">High-recall chunking</span>
-                      <p className="text-sm">{indexMeta.docling_chunk ? '✅ Enabled' : '❌ Disabled'}</p>
+                      <p className="text-sm">{indexMeta.docling_chunk ? ' Enabled' : ' Disabled'}</p>
                     </div>
                   )}
                   {indexMeta.has_fts_index && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">Full-text search</span>
-                      <p className="text-sm">🔍 Available</p>
+                      <p className="text-sm"> Available</p>
                     </div>
                   )}
                   {indexMeta.has_document_structure && (
                     <div>
                       <span className="block text-xs uppercase tracking-wide text-gray-300 mb-1">Document structure</span>
-                      <p className="text-sm">🔍 Organized</p>
+                      <p className="text-sm"> Organized</p>
                     </div>
                   )}
                 </div>

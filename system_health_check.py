@@ -11,11 +11,11 @@ from pathlib import Path
 def print_status(message, success=None):
     """Print status with emoji"""
     if success is True:
-        print(f"✅ {message}")
+        print(f" {message}")
     elif success is False:
-        print(f"❌ {message}")
+        print(f" {message}")
     else:
-        print(f"🔍 {message}")
+        print(f" {message}")
 
 def check_imports():
     """Test basic imports"""
@@ -34,9 +34,9 @@ def check_configurations():
     try:
         from rag_system.main import EXTERNAL_MODELS, OLLAMA_CONFIG, PIPELINE_CONFIGS
         
-        print(f"📊 External Models: {EXTERNAL_MODELS}")
-        print(f"📊 Ollama Config: {OLLAMA_CONFIG}")
-        print(f"📊 Pipeline Configs: {PIPELINE_CONFIGS}")
+        print(f" External Models: {EXTERNAL_MODELS}")
+        print(f" Ollama Config: {OLLAMA_CONFIG}")
+        print(f" Pipeline Configs: {PIPELINE_CONFIGS}")
         
         # Check for common model dimension issues
         embedding_model = EXTERNAL_MODELS.get("embedding_model", "Unknown")
@@ -100,7 +100,7 @@ def check_database_access():
         
         print_status(f"LanceDB connected - {len(tables)} tables available", True)
         if tables:
-            print("📋 Available tables:")
+            print(" Available tables:")
             for table in tables[:5]:  # Show first 5 tables
                 print(f"   - {table}")
             if len(tables) > 5:
@@ -134,7 +134,7 @@ def check_sample_query(agent):
         if result and 'answer' in result:
             print_status("Sample query successful", True)
             print(f"📝 Answer preview: {result['answer'][:100]}...")
-            print(f"📊 Found {len(result.get('source_documents', []))} source documents")
+            print(f" Found {len(result.get('source_documents', []))} source documents")
         else:
             print_status("Query returned empty result", None)
             
@@ -177,7 +177,7 @@ def main():
     print(f"🏥 Health Check Complete: {checks_passed}/{total_checks} checks passed")
     
     if checks_passed == total_checks:
-        print_status("System is healthy! 🎉", True)
+        print_status("System is healthy! ", True)
         return 0
     elif checks_passed >= total_checks - 1:
         print_status("System mostly healthy with minor issues", None)

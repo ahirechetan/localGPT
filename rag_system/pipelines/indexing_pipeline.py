@@ -36,7 +36,7 @@ class IndexingPipeline:
                 )
                 print("🪄 Using DoclingChunker for high-recall sentence packing.")
             except Exception as e:
-                print(f"⚠️  Failed to initialise DoclingChunker: {e}. Falling back to legacy chunker.")
+                print(f"  Failed to initialise DoclingChunker: {e}. Falling back to legacy chunker.")
                 self.chunker = MarkdownRecursiveChunker(
                     max_chunk_size=chunk_size,
                     min_chunk_size=min(chunk_overlap, chunk_size // 4),  # Sensible minimum
@@ -125,7 +125,7 @@ class IndexingPipeline:
                 self.latechunk_cfg = retriever_configs["latechunk"]
                 self.latechunk_encoder = LateChunkEncoder(model_name=self.config.get("embedding_model_name", "qwen3-embedding-0.6b"))
             except Exception as e:
-                print(f"⚠️  Failed to initialise LateChunkEncoder: {e}. Disabling latechunk retrieval.")
+                print(f"  Failed to initialise LateChunkEncoder: {e}. Disabling latechunk retrieval.")
                 self.latechunk_enabled = False
 
     def run(self, file_paths: List[str] | None = None, *, documents: List[str] | None = None):
@@ -182,7 +182,7 @@ class IndexingPipeline:
                         try:
                             self.overview_builder.build_and_store(document_id, file_chunks)
                         except Exception as e:
-                            print(f"  ⚠️  Failed to create overview for {document_id}: {e}")
+                            print(f"    Failed to create overview for {document_id}: {e}")
                         
                         all_chunks.extend(file_chunks)
                         doc_chunks_map[document_id] = file_chunks  # save for late-chunk step
@@ -190,7 +190,7 @@ class IndexingPipeline:
                         file_tracker.update(1)
                         
                     except Exception as e:
-                        print(f"  ❌ Error processing {file_path}: {e}")
+                        print(f"   Error processing {file_path}: {e}")
                         file_tracker.update(1, errors=1)
                         continue
                 
@@ -200,9 +200,9 @@ class IndexingPipeline:
                 print("No text chunks were generated. Skipping indexing.")
                 return
 
-            print(f"\n✅ Generated {len(all_chunks)} text chunks total.")
+            print(f"\n Generated {len(all_chunks)} text chunks total.")
             memory_mb = estimate_memory_usage(all_chunks)
-            print(f"📊 Estimated memory usage: {memory_mb:.1f}MB")
+            print(f" Estimated memory usage: {memory_mb:.1f}MB")
 
             retriever_configs = self.config.get("retrievers") or self.config.get("retrieval", {})
 
@@ -210,7 +210,7 @@ class IndexingPipeline:
             enricher_config = self.config.get("contextual_enricher", {})
             enricher_enabled = enricher_config.get("enabled", False)
             
-            print(f"\n🔍 CONTEXTUAL ENRICHMENT DEBUG:")
+            print(f"\n CONTEXTUAL ENRICHMENT DEBUG:")
             print(f"   Config present: {bool(enricher_config)}")
             print(f"   Enabled: {enricher_enabled}")
             print(f"   Has enricher object: {hasattr(self, 'contextual_enricher')}")
@@ -218,7 +218,7 @@ class IndexingPipeline:
             if hasattr(self, 'contextual_enricher') and enricher_enabled:
                 with timer("Contextual Enrichment"):
                     window_size = enricher_config.get("window_size", 1)
-                    print(f"\n🚀 CONTEXTUAL ENRICHMENT ACTIVE!")
+                    print(f"\n CONTEXTUAL ENRICHMENT ACTIVE!")
                     print(f"   Window size: {window_size}")
                     print(f"   Model: {self.contextual_enricher.llm_model}")
                     print(f"   Batch size: {self.contextual_enricher.batch_size}")
@@ -234,9 +234,9 @@ class IndexingPipeline:
                     if all_chunks:
                         print(f"   Example AFTER: '{all_chunks[0]['text'][:100]}...'")
                     
-                    print(f"✅ Enriched {len(all_chunks)} chunks with context for indexing.")
+                    print(f" Enriched {len(all_chunks)} chunks with context for indexing.")
             else:
-                print(f"⚠️  CONTEXTUAL ENRICHMENT SKIPPED:")
+                print(f"  CONTEXTUAL ENRICHMENT SKIPPED:")
                 if not hasattr(self, 'contextual_enricher'):
                     print(f"   Reason: No enricher object (config enabled={enricher_enabled})")
                 elif not enricher_enabled:
@@ -253,7 +253,7 @@ class IndexingPipeline:
                     
                     print(f"\n--- Indexing {len(embeddings)} vectors into LanceDB table: {table_name} ---")
                     self.vector_indexer.index(table_name, all_chunks, embeddings)
-                    print("✅ Vector embeddings indexed successfully")
+                    print(" Vector embeddings indexed successfully")
 
                     # Create FTS index on the 'text' field after adding data
                     print(f"\n--- Ensuring Full-Text Search (FTS) index on table '{table_name}' ---")
@@ -271,11 +271,11 @@ class IndexingPipeline:
                                 use_tantivy=False,
                                 replace=False,
                             )
-                            print("✅ FTS index created successfully (using Lance native FTS).")
+                            print(" FTS index created successfully (using Lance native FTS).")
                         else:
                             print("ℹ️  FTS index already exists – skipped creation.")
                     except Exception as e:
-                        print(f"❌ Failed to create/verify FTS index: {e}")
+                        print(f" Failed to create/verify FTS index: {e}")
 
                     # ---------------------------------------------------
                     # Late-Chunk Embedding + Indexing (optional)
@@ -303,20 +303,20 @@ class IndexingPipeline:
                                 try:
                                     lc_vecs = self.latechunk_encoder.encode(full_doc, spans)
                                 except Exception as e:
-                                    print(f"⚠️  LateChunk encode failed for {doc_id}: {e}")
+                                    print(f"  LateChunk encode failed for {doc_id}: {e}")
                                     continue
 
                                 if len(doc_chunks) == 0 or len(lc_vecs) == 0:
                                     # Nothing to index for this document
                                     continue
                                 if len(lc_vecs) != len(doc_chunks):
-                                    print(f"⚠️  Mismatch LC vecs ({len(lc_vecs)}) vs chunks ({len(doc_chunks)}) for {doc_id}. Skipping.")
+                                    print(f"  Mismatch LC vecs ({len(lc_vecs)}) vs chunks ({len(doc_chunks)}) for {doc_id}. Skipping.")
                                     continue
 
                                 self.vector_indexer.index(lc_table_name, doc_chunks, lc_vecs)
                                 total_lc_vecs += len(lc_vecs)
 
-                            print(f"✅ Late-chunk vectors indexed: {total_lc_vecs}")
+                            print(f" Late-chunk vectors indexed: {total_lc_vecs}")
                 
             # Step 6: Knowledge Graph Extraction (Optional)
             if hasattr(self, 'graph_extractor'):
@@ -333,9 +333,9 @@ class IndexingPipeline:
                     
                     os.makedirs(os.path.dirname(graph_path), exist_ok=True)
                     nx.write_gml(G, graph_path)
-                    print(f"✅ Knowledge graph saved successfully.")
+                    print(f" Knowledge graph saved successfully.")
                     
-        print("\n--- ✅ Indexing Complete ---")
+        print("\n---  Indexing Complete ---")
         self._print_final_statistics(len(file_paths), len(all_chunks))
     
     def _print_final_statistics(self, num_files: int, num_chunks: int):
@@ -348,11 +348,11 @@ class IndexingPipeline:
         # Component status
         components = []
         if hasattr(self, 'contextual_enricher'):
-            components.append("✅ Contextual Enrichment")
+            components.append(" Contextual Enrichment")
         if hasattr(self, 'vector_indexer'):
-            components.append("✅ Vector & FTS Index")
+            components.append(" Vector & FTS Index")
         if hasattr(self, 'graph_extractor'):
-            components.append("✅ Knowledge Graph")
+            components.append(" Knowledge Graph")
             
         print(f"  Components: {', '.join(components)}")
         print(f"  Batch sizes: Embeddings={self.embedding_batch_size}, Enrichment={self.enrichment_batch_size}")

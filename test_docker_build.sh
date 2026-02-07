@@ -6,10 +6,10 @@ echo "🐳 Testing Docker builds individually..."
 # Function to check if Docker is running
 check_docker() {
     if ! docker version >/dev/null 2>&1; then
-        echo "❌ Docker is not running. Please start Docker Desktop."
+        echo " Docker is not running. Please start Docker Desktop."
         exit 1
     fi
-    echo "✅ Docker is running"
+    echo " Docker is running"
 }
 
 # Function to build and test a single container
@@ -22,17 +22,17 @@ build_and_test() {
     echo "🔨 Building $service..."
     docker build -f $dockerfile -t "rag-$service" .
     if [ $? -ne 0 ]; then
-        echo "❌ Failed to build $service"
+        echo " Failed to build $service"
         return 1
     fi
     
-    echo "✅ $service built successfully"
+    echo " $service built successfully"
     
     # Test running the container
-    echo "🚀 Testing $service container..."
+    echo " Testing $service container..."
     docker run -d --name "test-$service" -p "$port:$port" "rag-$service"
     if [ $? -ne 0 ]; then
-        echo "❌ Failed to run $service"
+        echo " Failed to run $service"
         return 1
     fi
     
@@ -49,9 +49,9 @@ build_and_test() {
     fi
     
     if [ $? -eq 0 ]; then
-        echo "✅ $service is healthy"
+        echo " $service is healthy"
     else
-        echo "⚠️ $service health check failed (but container is running)"
+        echo " $service health check failed (but container is running)"
         docker logs "test-$service" | tail -10
     fi
     
@@ -75,24 +75,24 @@ echo "📦 Building containers in dependency order..."
 # 1. RAG API (no dependencies)
 build_and_test "rag-api" "Dockerfile.rag-api" "8001"
 if [ $? -ne 0 ]; then
-    echo "❌ RAG API build failed, stopping"
+    echo " RAG API build failed, stopping"
     exit 1
 fi
 
 # 2. Backend (depends on RAG API)
 build_and_test "backend" "Dockerfile.backend" "8000"
 if [ $? -ne 0 ]; then
-    echo "❌ Backend build failed, stopping"
+    echo " Backend build failed, stopping"
     exit 1
 fi
 
 # 3. Frontend (depends on Backend)
 build_and_test "frontend" "Dockerfile.frontend" "3000"
 if [ $? -ne 0 ]; then
-    echo "❌ Frontend build failed, stopping"
+    echo " Frontend build failed, stopping"
     exit 1
 fi
 
 echo ""
-echo "🎉 All containers built and tested successfully!"
-echo "🚀 You can now run: ./start-docker.sh" 
+echo " All containers built and tested successfully!"
+echo " You can now run: ./start-docker.sh" 

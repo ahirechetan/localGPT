@@ -185,7 +185,7 @@ def validate_model_config():
     Raises:
         ValueError: If configuration conflicts are detected
     """
-    print("🔍 Validating model configuration...")
+    print(" Validating model configuration...")
     
     # Check for embedding model consistency
     default_embedding = PIPELINE_CONFIGS["default"]["embedding_model_name"]
@@ -201,12 +201,12 @@ def validate_model_config():
     if default_reranker != external_reranker:
         raise ValueError(f"Reranker model mismatch: {default_reranker} != {external_reranker}")
     
-    print("✅ Model configuration validation passed!")
+    print(" Model configuration validation passed!")
     
     return True
 
 # ============================================================================
-# 🚀 UTILITY FUNCTIONS  
+#  UTILITY FUNCTIONS  
 # ============================================================================
 
 def run_indexing(docs_path: str, config_mode: str = "default"):
@@ -229,7 +229,7 @@ def run_indexing(docs_path: str, config_mode: str = "default"):
 
     # Process all documents through the pipeline
     indexing_pipeline.process_documents(pdf_files)
-    print("✅ Indexing complete.")
+    print(" Indexing complete.")
 
 def run_chat(query: str):
     """

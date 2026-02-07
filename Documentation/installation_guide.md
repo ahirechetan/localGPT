@@ -87,7 +87,7 @@ ollama list
 ollama run qwen3:0.6b "Hello, how are you?"
 ```
 
-**⚠️ Important**: Keep Ollama running (`ollama serve`) for the entire setup process.
+** Important**: Keep Ollama running (`ollama serve`) for the entire setup process.
 
 ---
 
@@ -159,10 +159,10 @@ sleep 120
 
 ```bash
 # Test all endpoints
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 
 # Access the application
 open http://localhost:3000
@@ -191,9 +191,9 @@ source venv/bin/activate  # macOS/Linux
 pip install -r requirements.txt
 
 # Verify Python setup
-python -c "import torch; print('✅ PyTorch OK')"
-python -c "import transformers; print('✅ Transformers OK')"
-python -c "import lancedb; print('✅ LanceDB OK')"
+python -c "import torch; print(' PyTorch OK')"
+python -c "import transformers; print(' Transformers OK')"
+python -c "import lancedb; print(' LanceDB OK')"
 ```
 
 #### **Node.js Setup:**
@@ -229,9 +229,9 @@ python run_system.py
 python system_health_check.py
 
 # Test endpoints
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
 
 # Access the application
 open http://localhost:3000
@@ -292,7 +292,7 @@ python -c "
 from backend.database import ChatDatabase
 db = ChatDatabase()
 db.init_database()
-print('✅ Database initialized')
+print(' Database initialized')
 "
 
 # Verify database
@@ -315,10 +315,10 @@ docker compose ps
 python system_health_check.py
 
 # Universal health check
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 ```
 
 #### **RAG System Test:**
@@ -327,7 +327,7 @@ curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
 python -c "
 from rag_system.main import get_agent
 agent = get_agent('default')
-print('✅ RAG System initialized successfully')
+print(' RAG System initialized successfully')
 "
 
 # Test embedding generation
@@ -336,7 +336,7 @@ from rag_system.main import get_agent
 agent = get_agent('default')
 embedder = agent.retrieval_pipeline._get_text_embedder()
 test_emb = embedder.create_embeddings(['Hello world'])
-print(f'✅ Embedding generated: {test_emb.shape}')
+print(f' Embedding generated: {test_emb.shape}')
 "
 ```
 
@@ -498,12 +498,12 @@ chmod +x backup_system.sh
 
 ### 9.1 Installation Complete When:
 
-- ✅ All health checks pass without errors
-- ✅ Frontend loads at http://localhost:3000
-- ✅ All models are installed and responding
-- ✅ You can create document indexes
-- ✅ You can chat with uploaded documents
-- ✅ No error messages in logs/terminal
+-  All health checks pass without errors
+-  Frontend loads at http://localhost:3000
+-  All models are installed and responding
+-  You can create document indexes
+-  You can chat with uploaded documents
+-  No error messages in logs/terminal
 
 ### 9.2 Performance Benchmarks
 
@@ -539,4 +539,4 @@ chmod +x backup_system.sh
 
 ---
 
-**Congratulations! 🎉** Your RAG system is now ready to use. Visit http://localhost:3000 to start chatting with your documents. 
+**Congratulations! ** Your RAG system is now ready to use. Visit http://localhost:3000 to start chatting with your documents. 

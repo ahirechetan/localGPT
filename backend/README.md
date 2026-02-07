@@ -86,7 +86,7 @@ Your React frontend should connect to:
 ## What's Next
 
 This simple backend is ready for:
-- ✅ **Real-time chat** with local LLMs
+-  **Real-time chat** with local LLMs
 - 🔜 **Document upload** for RAG
 - 🔜 **Vector database** integration
 - 🔜 **Streaming responses**

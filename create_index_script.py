@@ -28,7 +28,7 @@ try:
     from rag_system.utils.ollama_client import OllamaClient
     from backend.database import ChatDatabase
 except ImportError as e:
-    print(f"❌ Error importing required modules: {e}")
+    print(f" Error importing required modules: {e}")
     print("Please ensure you're running this script from the project root directory.")
     sys.exit(1)
 
@@ -62,7 +62,7 @@ class IndexCreator:
                 with open(config_path, 'r') as f:
                     return json.load(f)
             except Exception as e:
-                print(f"⚠️  Error loading config from {config_path}: {e}")
+                print(f"  Error loading config from {config_path}: {e}")
                 print("Using default configuration...")
         
         return PIPELINE_CONFIGS.get("default", {})
@@ -94,9 +94,9 @@ class IndexCreator:
                 doc_path = self.get_user_input("Enter document path")
                 if os.path.exists(doc_path):
                     documents.append(os.path.abspath(doc_path))
-                    print(f"✅ Added: {doc_path}")
+                    print(f" Added: {doc_path}")
                 else:
-                    print(f"❌ File not found: {doc_path}")
+                    print(f" File not found: {doc_path}")
             
             elif choice == "2":
                 dir_path = self.get_user_input("Enter directory path")
@@ -115,17 +115,17 @@ class IndexCreator:
                         
                         if self.get_user_input("Add all these documents? (y/n)", "y").lower() == 'y':
                             documents.extend([str(doc.absolute()) for doc in found_docs])
-                            print(f"✅ Added {len(found_docs)} documents")
+                            print(f" Added {len(found_docs)} documents")
                     else:
-                        print("❌ No supported documents found in directory")
+                        print(" No supported documents found in directory")
                 else:
-                    print(f"❌ Directory not found: {dir_path}")
+                    print(f" Directory not found: {dir_path}")
             
             elif choice == "3":
                 if documents:
                     break
                 else:
-                    print("❌ No documents selected. Please add at least one document.")
+                    print(" No documents selected. Please add at least one document.")
             
             elif choice == "4":
                 if documents:
@@ -176,7 +176,7 @@ class IndexCreator:
     
     def create_index_interactive(self) -> None:
         """Run the interactive index creation process."""
-        print("🚀 LocalGPT Index Creation Tool")
+        print(" LocalGPT Index Creation Tool")
         print("=" * 50)
         
         # Get index details
@@ -190,7 +190,7 @@ class IndexCreator:
         processing_config = self.configure_processing()
         
         # Confirm creation
-        print("\n📋 Index Summary")
+        print("\n Index Summary")
         print("=" * 50)
         print(f"Name: {index_name}")
         print(f"Description: {index_description or 'None'}")
@@ -200,7 +200,7 @@ class IndexCreator:
         print(f"Embedding model: {processing_config['embedding_model']}")
         
         if self.get_user_input("\nProceed with index creation? (y/n)", "y").lower() != 'y':
-            print("❌ Index creation cancelled.")
+            print(" Index creation cancelled.")
             return
         
         # Create the index
@@ -223,7 +223,7 @@ class IndexCreator:
             print("📚 Processing documents...")
             self.pipeline.process_documents(documents)
             
-            print(f"\n✅ Index '{index_name}' created successfully!")
+            print(f"\n Index '{index_name}' created successfully!")
             print(f"Index ID: {index_id}")
             print(f"Processed {len(documents)} documents")
             
@@ -232,7 +232,7 @@ class IndexCreator:
                 self.test_index(index_id)
                 
         except Exception as e:
-            print(f"❌ Error creating index: {e}")
+            print(f" Error creating index: {e}")
             import traceback
             traceback.print_exc()
     
@@ -255,7 +255,7 @@ class IndexCreator:
             print(response)
             
         except Exception as e:
-            print(f"❌ Error testing index: {e}")
+            print(f" Error testing index: {e}")
     
     def batch_create_from_config(self, config_file: str) -> None:
         """Create index from batch configuration file."""
@@ -269,7 +269,7 @@ class IndexCreator:
             processing_config = batch_config.get("processing", {})
             
             if not documents:
-                print("❌ No documents specified in batch configuration")
+                print(" No documents specified in batch configuration")
                 return
             
             # Validate documents exist
@@ -278,13 +278,13 @@ class IndexCreator:
                 if os.path.exists(doc_path):
                     valid_documents.append(doc_path)
                 else:
-                    print(f"⚠️  Document not found: {doc_path}")
+                    print(f"  Document not found: {doc_path}")
             
             if not valid_documents:
-                print("❌ No valid documents found")
+                print(" No valid documents found")
                 return
             
-            print(f"🚀 Creating batch index: {index_name}")
+            print(f" Creating batch index: {index_name}")
             print(f"📄 Processing {len(valid_documents)} documents...")
             
             # Create index
@@ -302,11 +302,11 @@ class IndexCreator:
             # Process documents
             self.pipeline.process_documents(valid_documents)
             
-            print(f"✅ Batch index '{index_name}' created successfully!")
+            print(f" Batch index '{index_name}' created successfully!")
             print(f"Index ID: {index_id}")
             
         except Exception as e:
-            print(f"❌ Error creating batch index: {e}")
+            print(f" Error creating batch index: {e}")
             import traceback
             traceback.print_exc()
 
@@ -361,9 +361,9 @@ def main():
             creator.create_index_interactive()
             
     except KeyboardInterrupt:
-        print("\n\n❌ Operation cancelled by user.")
+        print("\n\n Operation cancelled by user.")
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
+        print(f" Unexpected error: {e}")
         import traceback
         traceback.print_exc()
 

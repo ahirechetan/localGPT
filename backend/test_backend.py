@@ -7,20 +7,20 @@ import requests
 
 def test_health_endpoint():
     """Test the health endpoint"""
-    print("🔍 Testing health endpoint...")
+    print(" Testing health endpoint...")
     try:
         response = requests.get("http://localhost:8000/health", timeout=5)
         if response.status_code == 200:
             data = response.json()
-            print(f"✅ Health check passed")
+            print(f" Health check passed")
             print(f"   Ollama running: {data['ollama_running']}")
             print(f"   Models available: {len(data['available_models'])}")
             return True
         else:
-            print(f"❌ Health check failed: {response.status_code}")
+            print(f" Health check failed: {response.status_code}")
             return False
     except requests.exceptions.RequestException as e:
-        print(f"❌ Health check failed: {e}")
+        print(f" Health check failed: {e}")
         return False
 
 def test_chat_endpoint():
@@ -42,18 +42,18 @@ def test_chat_endpoint():
         
         if response.status_code == 200:
             data = response.json()
-            print(f"✅ Chat test passed")
+            print(f" Chat test passed")
             print(f"   Model: {data['model']}")
             print(f"   Response: {data['response']}")
             print(f"   Message count: {data['message_count']}")
             return True
         else:
-            print(f"❌ Chat test failed: {response.status_code}")
+            print(f" Chat test failed: {response.status_code}")
             print(f"   Response: {response.text}")
             return False
             
     except requests.exceptions.RequestException as e:
-        print(f"❌ Chat test failed: {e}")
+        print(f" Chat test failed: {e}")
         return False
 
 def test_conversation_history():
@@ -100,25 +100,25 @@ def test_conversation_history():
             
             if response2.status_code == 200:
                 data2 = response2.json()
-                print(f"✅ Conversation history test passed")
+                print(f" Conversation history test passed")
                 print(f"   First response: {data1['response']}")
                 print(f"   Second response: {data2['response']}")
                 
                 # Check if the AI remembered the name
                 if "alice" in data2['response'].lower():
-                    print(f"✅ AI correctly remembered the name!")
+                    print(f" AI correctly remembered the name!")
                 else:
-                    print(f"⚠️  AI might not have remembered the name")
+                    print(f"  AI might not have remembered the name")
                 return True
             else:
-                print(f"❌ Second message failed: {response2.status_code}")
+                print(f" Second message failed: {response2.status_code}")
                 return False
         else:
-            print(f"❌ First message failed: {response1.status_code}")
+            print(f" First message failed: {response1.status_code}")
             return False
             
     except requests.exceptions.RequestException as e:
-        print(f"❌ Conversation test failed: {e}")
+        print(f" Conversation test failed: {e}")
         return False
 
 def main():
@@ -128,14 +128,14 @@ def main():
     # Test health endpoint
     health_ok = test_health_endpoint()
     if not health_ok:
-        print("\n❌ Backend server is not running or not healthy")
+        print("\n Backend server is not running or not healthy")
         print("   Make sure to run: python server.py")
         return
     
     # Test basic chat
     chat_ok = test_chat_endpoint()
     if not chat_ok:
-        print("\n❌ Chat functionality is not working")
+        print("\n Chat functionality is not working")
         return
     
     # Test conversation history
@@ -143,9 +143,9 @@ def main():
     
     print("\n" + "=" * 40)
     if health_ok and chat_ok and conversation_ok:
-        print("🎉 All tests passed! Backend is ready for frontend integration.")
+        print(" All tests passed! Backend is ready for frontend integration.")
     else:
-        print("⚠️  Some tests failed. Check the issues above.")
+        print("  Some tests failed. Check the issues above.")
     
     print("\n🔗 Ready to connect to frontend at http://localhost:3000")
 

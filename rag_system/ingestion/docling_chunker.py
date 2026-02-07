@@ -193,7 +193,7 @@ class DoclingChunker:
                     tbl_md = tbl.export_to_markdown() if hasattr(tbl, "export_to_markdown") else str(tbl)
                 _add_chunk(tbl_md, "table", heading_path=current_heading_path[:], page_no=getattr(tbl, "page_no", None))
         except Exception as e:
-            print(f"⚠️  Docling tree walk failed: {e}. Falling back to markdown splitter.")
+            print(f"  Docling tree walk failed: {e}. Falling back to markdown splitter.")
             return self.split_markdown(doc.export_to_markdown(), document_id=document_id, metadata=metadata)
 
         # --------------------------------------------------------------

@@ -1,4 +1,4 @@
-# 🚀 RAG System Deployment Guide
+#  RAG System Deployment Guide
 
 _Last updated: 2025-01-07_
 
@@ -387,10 +387,10 @@ CHUNK_OVERLAP = 64         # Overlap between chunks
 #### **Health Checks**
 ```bash
 # Comprehensive system check
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 ```
 
 #### **Performance Monitoring**
@@ -575,11 +575,11 @@ time curl http://localhost:8001/models
 
 Your deployment is successful when:
 
-- ✅ All health checks pass
-- ✅ Frontend loads at http://localhost:3000
-- ✅ You can create document indexes
-- ✅ You can chat with uploaded documents
-- ✅ No error messages in logs
+-  All health checks pass
+-  Frontend loads at http://localhost:3000
+-  You can create document indexes
+-  You can chat with uploaded documents
+-  No error messages in logs
 
 ### 9.2 Performance Benchmarks
 
@@ -595,4 +595,4 @@ Your deployment is successful when:
 
 ---
 
-**Happy Deploying! 🚀** 
+**Happy Deploying! ** 

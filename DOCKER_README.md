@@ -2,7 +2,7 @@
 
 This guide covers running LocalGPT using Docker containers with local Ollama for optimal performance.
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Complete Setup (5 Minutes)
 ```bash
@@ -25,7 +25,7 @@ cd rag-system
 open http://localhost:3000
 ```
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - **Docker Desktop** installed and running
 - **Ollama** installed locally (required for best performance)
@@ -52,10 +52,10 @@ open http://localhost:3000
 ```
 
 **Why Local Ollama?**
-- ✅ Better performance (direct GPU access)
-- ✅ Simpler setup (one less container)
-- ✅ Easier model management
-- ✅ More reliable connection
+-  Better performance (direct GPU access)
+-  Simpler setup (one less container)
+-  Easier model management
+-  More reliable connection
 
 ## 🛠️ Container Details
 
@@ -161,10 +161,10 @@ docker compose up -d rag-api
 ### Health Checks
 ```bash
 # Test all endpoints
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 ```
 
 ## 🐞 Debugging
@@ -187,7 +187,7 @@ docker compose exec frontend sh
 docker compose exec rag-api python -c "
 from rag_system.main import get_agent
 agent = get_agent('default')
-print('✅ RAG System OK')
+print(' RAG System OK')
 "
 
 # Test Ollama connection from container
@@ -307,12 +307,12 @@ rm -rf lancedb/* shared_uploads/* backend/chat_data.db
 
 Your Docker deployment is successful when:
 
-- ✅ `./start-docker.sh status` shows all containers healthy
-- ✅ All health checks pass (see commands above)  
-- ✅ You can access http://localhost:3000
-- ✅ You can upload documents and create indexes
-- ✅ You can chat with your documents
-- ✅ No errors in container logs
+-  `./start-docker.sh status` shows all containers healthy
+-  All health checks pass (see commands above)  
+-  You can access http://localhost:3000
+-  You can upload documents and create indexes
+-  You can chat with your documents
+-  No errors in container logs
 
 ### Performance Benchmarks
 

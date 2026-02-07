@@ -6,7 +6,7 @@ This guide provides practical Docker commands and procedures for running the RAG
 
 ---
 
-## 📋 Prerequisites
+##  Prerequisites
 
 ### Required Setup
 - Docker Desktop installed and running
@@ -48,7 +48,7 @@ docker version
 
 ### Step 2: Install and Configure Ollama (Required)
 
-**⚠️ Important**: Even with Docker, Ollama must be installed locally for optimal performance.
+** Important**: Even with Docker, Ollama must be installed locally for optimal performance.
 
 ```bash
 # Install Ollama
@@ -188,7 +188,7 @@ docker compose exec backend bash
 docker compose exec rag-api bash
 
 # Run commands in container
-docker compose exec rag-api python -c "from rag_system.main import get_agent; print('✅ RAG System OK')"
+docker compose exec rag-api python -c "from rag_system.main import get_agent; print(' RAG System OK')"
 docker compose exec backend curl http://localhost:8000/health
 
 # Check environment variables
@@ -414,10 +414,10 @@ docker compose ps
 # Clean containers and images
 docker system prune -a
 
-# Clean volumes (⚠️ deletes data)
+# Clean volumes ( deletes data)
 docker volume prune
 
-# Complete reset (⚠️ deletes everything)
+# Complete reset ( deletes everything)
 docker compose down -v
 docker system prune -a --volumes
 ```
@@ -426,10 +426,10 @@ docker system prune -a --volumes
 
 ```bash
 # Comprehensive health check
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 
 # Check all container status
 docker compose ps
@@ -438,7 +438,7 @@ docker compose ps
 docker compose exec rag-api python -c "
 from rag_system.main import get_agent
 agent = get_agent('default')
-print('✅ RAG System initialized successfully')
+print(' RAG System initialized successfully')
 "
 ```
 
@@ -519,12 +519,12 @@ docker compose --env-file docker.custom.env up -d
 
 Your Docker deployment is successful when:
 
-- ✅ All containers are running: `docker compose ps`
-- ✅ Ollama is accessible: `curl http://localhost:11434/api/tags`
-- ✅ Frontend loads: `curl http://localhost:3000`
-- ✅ Backend responds: `curl http://localhost:8000/health`
-- ✅ RAG API works: `curl http://localhost:8001/models`
-- ✅ You can create indexes and chat with documents
+-  All containers are running: `docker compose ps`
+-  Ollama is accessible: `curl http://localhost:11434/api/tags`
+-  Frontend loads: `curl http://localhost:3000`
+-  Backend responds: `curl http://localhost:8000/health`
+-  RAG API works: `curl http://localhost:8001/models`
+-  You can create indexes and chat with documents
 
 ### Performance Expectations
 

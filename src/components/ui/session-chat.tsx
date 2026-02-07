@@ -165,7 +165,7 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
         try {
           const files = attachedFiles.map(af => af.file)
           const uploadResult = await apiService.uploadFiles(activeSessionId, files)
-          console.log('✅ Files uploaded successfully:', uploadResult)
+          console.log(' Files uploaded successfully:', uploadResult)
           
           setUploadedFiles(uploadResult.uploaded_files)
           setIsIndexed(false)
@@ -176,8 +176,8 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
           )
           setMessages(prev => [...prev, uploadMessage])
         } catch (error) {
-          console.error('❌ Failed to upload files:', error)
-          const errorMessage = apiService.createMessage('❌ Failed to upload files. Please try again.', 'assistant')
+          console.error(' Failed to upload files:', error)
+          const errorMessage = apiService.createMessage(' Failed to upload files. Please try again.', 'assistant')
           setMessages(prev => [...prev, errorMessage])
         } finally {
           setIsLoading(false)
@@ -424,7 +424,7 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
                   if (s.status !== 'done') s.status = 'done';
                 });
                 
-                // 🔄 REFRESH SESSION: After completion, refresh session data to get updated title
+                //  REFRESH SESSION: After completion, refresh session data to get updated title
                 if (activeSessionId) {
                   // Always refresh session data so updated title & message count are reflected in the UI
                   setTimeout(async () => {
@@ -504,10 +504,10 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
     setError(null);
     try {
       const result = await apiService.indexDocuments(currentSession.id);
-      console.log('✅ Indexing complete:', result);
+      console.log(' Indexing complete:', result);
 
       const indexMessage = apiService.createMessage(
-        `✅ ${result.message}`,
+        ` ${result.message}`,
         'assistant'
       );
       setMessages(prev => [...prev, indexMessage]);
@@ -515,9 +515,9 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
       setUploadedFiles([]); // Clear uploaded files after indexing
 
     } catch (error) {
-      console.error('❌ Failed to index documents:', error);
+      console.error(' Failed to index documents:', error);
       const errorMessage = apiService.createMessage(
-        '❌ Failed to index documents. Please try again.',
+        ' Failed to index documents. Please try again.',
         'assistant'
       );
       setMessages(prev => [...prev, errorMessage]);

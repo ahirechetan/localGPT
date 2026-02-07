@@ -172,12 +172,12 @@ def main():
     
     # Check if Ollama is running
     if not client.is_ollama_running():
-        print("❌ Ollama is not running. Please start Ollama first.")
+        print(" Ollama is not running. Please start Ollama first.")
         print("Install: https://ollama.ai")
         print("Run: ollama serve")
         return
     
-    print("✅ Ollama is running!")
+    print(" Ollama is running!")
     
     # List available models
     models = client.list_models()
@@ -188,9 +188,9 @@ def main():
     if model_name not in [m.split(":")[0] for m in models]:
         print(f"Model {model_name} not found. Pulling...")
         if client.pull_model(model_name):
-            print(f"✅ Model {model_name} pulled successfully!")
+            print(f" Model {model_name} pulled successfully!")
         else:
-            print(f"❌ Failed to pull model {model_name}")
+            print(f" Failed to pull model {model_name}")
             return
     
     # Test chat

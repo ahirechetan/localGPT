@@ -16,11 +16,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     from rag_system.main import PIPELINE_CONFIGS
     RAG_SYSTEM_AVAILABLE = True
-    print("✅ RAG system modules accessible from backend")
+    print(" RAG system modules accessible from backend")
 except ImportError as e:
     PIPELINE_CONFIGS = {}
     RAG_SYSTEM_AVAILABLE = False
-    print(f"⚠️ RAG system modules not available: {e}")
+    print(f" RAG system modules not available: {e}")
 
 from ollama_client import OllamaClient
 from database import db, generate_session_title
@@ -302,8 +302,8 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             use_rag = True if force_rag else self._should_use_rag(message, idx_ids)
             
             if use_rag:
-                # 🔍 --- Use RAG Pipeline for Document-Related Queries ---
-                print(f"🔍 Using RAG pipeline for document query: '{message[:50]}...'")
+                #  --- Use RAG Pipeline for Document-Related Queries ---
+                print(f" Using RAG pipeline for document query: '{message[:50]}...'")
                 response_text, source_docs = self._handle_rag_query(session_id, message, data, idx_ids)
             else:
                 # ⚡ --- Use Direct LLM for General Queries (FAST) ---
@@ -325,19 +325,19 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             
         except BrokenPipeError:
             # Client disconnected - this is normal for long queries, just log it
-            print(f"⚠️  Client disconnected during RAG processing for query: '{message[:30]}...'")
+            print(f"  Client disconnected during RAG processing for query: '{message[:30]}...'")
         except json.JSONDecodeError:
             self.send_json_response({
                 "error": "Invalid JSON"
             }, status_code=400)
         except Exception as e:
-            print(f"❌ Server error in session chat: {str(e)}")
+            print(f" Server error in session chat: {str(e)}")
             try:
                 self.send_json_response({
                     "error": f"Server error: {str(e)}"
                 }, status_code=500)
             except BrokenPipeError:
-                print(f"⚠️  Client disconnected during error response")
+                print(f"  Client disconnected during error response")
     
     def _should_use_rag(self, message: str, idx_ids: List[str]) -> bool:
         """
@@ -360,7 +360,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             if doc_overviews:
                 return self._route_using_overviews(message, doc_overviews)
         except Exception as e:
-            print(f"⚠️ Overview-based routing failed, falling back to simple routing: {e}")
+            print(f" Overview-based routing failed, falling back to simple routing: {e}")
         
         # Fallback to simple pattern matching if overviews unavailable
         return self._simple_pattern_routing(message, idx_ids)
@@ -401,7 +401,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
                                     continue  # skip malformed lines
                         break  # Stop after the first existing path for this idx
                     except Exception as e:
-                        print(f"⚠️ Error reading {p}: {e}")
+                        print(f" Error reading {p}: {e}")
                         break  # Don't keep trying other paths for this idx if read failed
 
         # 2️⃣  Fall back to legacy global file if no per-index overviews found
@@ -413,7 +413,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
             ]
             for p in legacy_paths:
                 if os.path.exists(p):
-                    print(f"⚠️ Falling back to legacy overviews file: {p}")
+                    print(f" Falling back to legacy overviews file: {p}")
                     try:
                         with open(p, "r", encoding="utf-8") as f:
                             for line in f:
@@ -427,14 +427,14 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
                                 except json.JSONDecodeError:
                                     continue
                     except Exception as e:
-                        print(f"⚠️ Error reading legacy overviews file {p}: {e}")
+                        print(f" Error reading legacy overviews file {p}: {e}")
                     break
 
         # Limit for performance
         if aggregated:
-            print(f"✅ Loaded {len(aggregated)} document overviews from {len(idx_ids)} index(es)")
+            print(f" Loaded {len(aggregated)} document overviews from {len(idx_ids)} index(es)")
         else:
-            print(f"⚠️ No overviews found for indices {idx_ids}")
+            print(f" No overviews found for indices {idx_ids}")
         return aggregated[:40]
 
     def _route_using_overviews(self, query: str, overviews: List[str]) -> bool:
@@ -496,11 +496,11 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 print(f"⚡ Overview-based routing: DIRECT_LLM for query: '{query[:50]}...'")
                 return False
             else:
-                print(f"⚠️ Unclear routing decision '{decision}', defaulting to RAG")
+                print(f" Unclear routing decision '{decision}', defaulting to RAG")
                 return True  # Default to RAG when uncertain
                 
         except Exception as e:
-            print(f"❌ LLM routing failed: {e}, falling back to pattern matching")
+            print(f" LLM routing failed: {e}, falling back to pattern matching")
             return self._simple_pattern_routing(query, [])
 
     def _simple_pattern_routing(self, message: str, idx_ids: List[str]) -> bool:
@@ -576,7 +576,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
             return response_text, []  # No source docs for direct LLM
             
         except Exception as e:
-            print(f"❌ Direct LLM error: {e}")
+            print(f" Direct LLM error: {e}")
             return f"Error processing query: {str(e)}", []
     
     def _handle_rag_query(self, session_id: str, message: str, data: dict, idx_ids: List[str]):
@@ -631,13 +631,13 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 source_docs = rag_data.get("source_documents", [])
             else:
                 response_text = f"Error from RAG API ({rag_response.status_code}): {rag_response.text}"
-                print(f"❌ RAG API error: {response_text}")
+                print(f" RAG API error: {response_text}")
         except requests.exceptions.ConnectionError:
             response_text = "Could not connect to the RAG API server. Please ensure it is running."
-            print("❌ Connection to RAG API failed (port 8001).")
+            print(" Connection to RAG API failed (port 8001).")
         except Exception as e:
             response_text = f"Error processing RAG query: {str(e)}"
-            print(f"❌ RAG processing error: {e}")
+            print(f" RAG processing error: {e}")
 
         # Strip any <think>/<thinking> tags that might slip through
         response_text = re.sub(r'<(think|thinking)>.*?</\\1>', '', response_text, flags=re.DOTALL | re.IGNORECASE).strip()
@@ -710,7 +710,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
             rag_response = requests.post(rag_api_url, json={"file_paths": file_paths, "session_id": session_id})
 
             if rag_response.status_code == 200:
-                print("✅ RAG API successfully indexed documents.")
+                print(" RAG API successfully indexed documents.")
                 # Merge key config values into index metadata
                 idx_meta = {
                     "session_linked": True,
@@ -719,15 +719,15 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 try:
                     db.update_index_metadata(session_id, idx_meta)  # session_id used as index_id in text table naming
                 except Exception as e:
-                    print(f"⚠️ Failed to update index metadata for session index: {e}")
+                    print(f" Failed to update index metadata for session index: {e}")
                 self.send_json_response(rag_response.json())
             else:
                 error_info = rag_response.text
-                print(f"❌ RAG API indexing failed ({rag_response.status_code}): {error_info}")
+                print(f" RAG API indexing failed ({rag_response.status_code}): {error_info}")
                 self.send_json_response({"error": f"Indexing failed: {error_info}"}, status_code=500)
 
         except Exception as e:
-            print(f"❌ Exception during indexing: {str(e)}")
+            print(f" Exception during indexing: {str(e)}")
             self.send_json_response({"error": f"An unexpected error occurred: {str(e)}"}, status_code=500)
             
     def handle_pdf_upload(self, session_id: str):
@@ -961,7 +961,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 try:
                     db.update_index_metadata(index_id, meta_updates)
                 except Exception as e:
-                    print(f"⚠️ Failed to update index metadata: {e}")
+                    print(f" Failed to update index metadata: {e}")
 
                 self.send_json_response({
                     "response": rag_resp.json(),
@@ -1001,7 +1001,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
                 if idx:
                     # Try to populate metadata for older indexes that have empty metadata
                     if not idx.get('metadata') or len(idx['metadata']) == 0:
-                        print(f"🔍 Attempting to infer metadata for index {idx_id[:8]}...")
+                        print(f" Attempting to infer metadata for index {idx_id[:8]}...")
                         inferred_metadata = db.inspect_and_populate_index_metadata(idx_id)
                         if inferred_metadata:
                             # Refresh the index data with the new metadata
@@ -1071,9 +1071,9 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
             self.wfile.write(response_bytes)
         except BrokenPipeError:
             # Client disconnected before we could finish sending
-            print("⚠️  Client disconnected during response – ignoring.")
+            print("  Client disconnected during response – ignoring.")
         except Exception as e:
-            print(f"❌ Error sending response: {e}")
+            print(f" Error sending response: {e}")
     
     def log_message(self, format, *args):
         """Custom log format"""
@@ -1084,27 +1084,27 @@ def main():
     PORT = 8000  # 🆕 Define port
     try:
         # Initialize the database
-        print("✅ Database initialized successfully")
+        print(" Database initialized successfully")
 
         # Initialize the PDF processor
         try:
             pdf_module.initialize_simple_pdf_processor()
             print("📄 Initializing simple PDF processing...")
             if pdf_module.simple_pdf_processor:
-                print("✅ Simple PDF processor initialized")
+                print(" Simple PDF processor initialized")
             else:
-                print("⚠️ PDF processing could not be initialized.")
+                print(" PDF processing could not be initialized.")
         except Exception as e:
-            print(f"❌ Error initializing PDF processor: {e}")
-            print("⚠️ PDF processing disabled - server will run without RAG functionality")
+            print(f" Error initializing PDF processor: {e}")
+            print(" PDF processing disabled - server will run without RAG functionality")
 
         # Set a global reference to the initialized processor if needed elsewhere
         global pdf_processor
         pdf_processor = pdf_module.simple_pdf_processor
         if pdf_processor:
-            print("✅ Global PDF processor initialized")
+            print(" Global PDF processor initialized")
         else:
-            print("⚠️ PDF processing disabled - server will run without RAG functionality")
+            print(" PDF processing disabled - server will run without RAG functionality")
         
         # Cleanup empty sessions on startup
         print("🧹 Cleaning up empty sessions...")
@@ -1116,27 +1116,27 @@ def main():
 
         # Start the server
         with ReusableTCPServer(("", PORT), ChatHandler) as httpd:
-            print(f"🚀 Starting localGPT backend server on port {PORT}")
+            print(f" Starting localGPT backend server on port {PORT}")
             print(f"📍 Chat endpoint: http://localhost:{PORT}/chat")
-            print(f"🔍 Health check: http://localhost:{PORT}/health")
+            print(f" Health check: http://localhost:{PORT}/health")
             
             # Test Ollama connection
             client = OllamaClient()
             if client.is_ollama_running():
                 models = client.list_models()
-                print(f"✅ Ollama is running with {len(models)} models")
-                print(f"📋 Available models: {', '.join(models[:3])}{'...' if len(models) > 3 else ''}")
+                print(f" Ollama is running with {len(models)} models")
+                print(f" Available models: {', '.join(models[:3])}{'...' if len(models) > 3 else ''}")
             else:
-                print("⚠️  Ollama is not running. Please start Ollama:")
+                print("  Ollama is not running. Please start Ollama:")
                 print("   Install: https://ollama.ai")
                 print("   Run: ollama serve")
             
-            print(f"\n🌐 Frontend should connect to: http://localhost:{PORT}")
+            print(f"\n Frontend should connect to: http://localhost:{PORT}")
             print("💬 Ready to chat!\n")
             
             httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n🛑 Server stopped")
+        print("\n Server stopped")
 
 if __name__ == "__main__":
     main() 

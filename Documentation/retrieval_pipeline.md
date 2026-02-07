@@ -1,4 +1,4 @@
-# 📥 Retrieval Pipeline
+#  Retrieval Pipeline
 
 _Maps to `rag_system/pipelines/retrieval_pipeline.py` and helpers in `retrieval/`, `rerankers/`._
 
@@ -368,7 +368,7 @@ def search_multiple_indexes(self, query: str, index_ids: List[str], **kwargs):
             all_results.extend(index_results)
             
         except Exception as e:
-            print(f"⚠️ Error searching index {index_id}: {e}")
+            print(f" Error searching index {index_id}: {e}")
             continue
     
     # Global reranking across all indexes
@@ -389,7 +389,7 @@ def answer_stream(self, query: str, **kwargs):
         return self._answer_stream_full_pipeline(query, **kwargs)
         
     except Exception as e:
-        print(f"⚠️ Full pipeline failed: {e}")
+        print(f" Full pipeline failed: {e}")
         
         try:
             # Fallback: Dense-only search
@@ -398,7 +398,7 @@ def answer_stream(self, query: str, **kwargs):
             return self._answer_stream_fallback(query, **kwargs)
             
         except Exception as e2:
-            print(f"⚠️ Fallback failed: {e2}")
+            print(f" Fallback failed: {e2}")
             
             # Last resort: Direct LLM answer
             return self._direct_llm_answer(query)
@@ -419,7 +419,7 @@ def _direct_llm_answer(self, query: str):
         model=self.ollama_config["generation_model"]
     )
     
-    yield "⚠️ Document search unavailable. Providing general response:\n\n"
+    yield " Document search unavailable. Providing general response:\n\n"
     
     for chunk in response:
         yield chunk
@@ -429,7 +429,7 @@ def _direct_llm_answer(self, query: str):
 ```python
 def recover_from_embedding_failure(self, query: str, **kwargs):
     """Recover when embedding model fails."""
-    print("🔄 Attempting embedding model recovery...")
+    print(" Attempting embedding model recovery...")
     
     # Try to reinitialize embedder
     try:
@@ -440,16 +440,16 @@ def recover_from_embedding_failure(self, query: str, **kwargs):
         test_embedding = embedder.create_embeddings(["test"])
         
         if test_embedding is not None:
-            print("✅ Embedding model recovered")
+            print(" Embedding model recovered")
             return True
             
     except Exception as e:
-        print(f"❌ Recovery failed: {e}")
+        print(f" Recovery failed: {e}")
     
     # Fallback to BM25-only search
     kwargs["search_type"] = "bm25"
     kwargs["ai_rerank"] = False
-    print("🔄 Falling back to keyword search only")
+    print(" Falling back to keyword search only")
     
     return False
 ```
@@ -520,7 +520,7 @@ def monitor_memory_usage(self):
     
     # Suggest cleanup if memory usage is high
     if memory_info.rss > 8 * 1024 * 1024 * 1024:  # 8GB
-        print("⚠️ High memory usage detected - consider cleanup")
+        print(" High memory usage detected - consider cleanup")
         gc.collect()
 ```
 

@@ -24,7 +24,7 @@
   </p>
 </div>
 
-## 🚀 What is LocalGPT?
+##  What is LocalGPT?
 
 LocalGPT is a **fully private, on-premise Document Intelligence platform**. Ask questions, summarise, and uncover insights from your files with state-of-the-art AI—no data ever leaves your machine.
 
@@ -79,7 +79,7 @@ Watch this [video](https://youtu.be/JTbtGH3secI) to get started with LocalGPT.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 Note: The installation is currently only tested on macOS. 
 
@@ -289,7 +289,7 @@ python system_health_check.py
 python -c "from backend.database import ChatDatabase; ChatDatabase().init_database()"
 
 # Test installation
-python -c "from rag_system.main import get_agent; print('✅ Installation successful!')"
+python -c "from rag_system.main import get_agent; print(' Installation successful!')"
 
 # Validate complete setup
 python run_system.py --health
@@ -497,7 +497,7 @@ ollama pull qwen3:0.6b
 #### Database Issues
 ```bash
 # Check database connectivity
-python -c "from backend.database import ChatDatabase; db = ChatDatabase(); print('✅ Database OK')"
+python -c "from backend.database import ChatDatabase; db = ChatDatabase(); print(' Database OK')"
 
 # Reset database (WARNING: This deletes all data)
 rm backend/chat_data.db
@@ -831,7 +831,7 @@ graph TD
 
 We welcome contributions from developers of all skill levels! LocalGPT is an open-source project that benefits from community involvement.
 
-### 🚀 Quick Start for Contributors
+###  Quick Start for Contributors
 
 ```bash
 # Fork and clone the repository
@@ -851,7 +851,7 @@ python system_health_check.py
 python run_system.py --mode dev
 ```
 
-### 📋 How to Contribute
+###  How to Contribute
 
 1. **🐛 Report Bugs**: Use our [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
 2. **💡 Request Features**: Use our [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)

@@ -31,7 +31,7 @@ try:
     from rag_system.utils.ollama_client import OllamaClient
     from backend.database import ChatDatabase
 except ImportError as e:
-    print(f"❌ Error importing required modules: {e}")
+    print(f" Error importing required modules: {e}")
     print("Please ensure you're running this script from the project root directory.")
     sys.exit(1)
 
@@ -70,13 +70,13 @@ class BatchIndexingDemo:
         try:
             with open(self.config_path, 'r') as f:
                 config = json.load(f)
-            print(f"✅ Loaded configuration from {self.config_path}")
+            print(f" Loaded configuration from {self.config_path}")
             return config
         except FileNotFoundError:
-            print(f"❌ Configuration file not found: {self.config_path}")
+            print(f" Configuration file not found: {self.config_path}")
             sys.exit(1)
         except json.JSONDecodeError as e:
-            print(f"❌ Invalid JSON in configuration file: {e}")
+            print(f" Invalid JSON in configuration file: {e}")
             sys.exit(1)
     
     def _merge_configurations(self) -> Dict[str, Any]:
@@ -103,7 +103,7 @@ class BatchIndexingDemo:
         """Validate and filter document paths."""
         valid_documents = []
         
-        print(f"📋 Validating {len(documents)} documents...")
+        print(f" Validating {len(documents)} documents...")
         
         for doc_path in documents:
             # Handle relative paths
@@ -115,13 +115,13 @@ class BatchIndexingDemo:
                 ext = Path(doc_path).suffix.lower()
                 if ext in ['.pdf', '.txt', '.docx', '.md', '.html', '.htm']:
                     valid_documents.append(doc_path)
-                    print(f"  ✅ {doc_path}")
+                    print(f"   {doc_path}")
                 else:
-                    print(f"  ⚠️  Unsupported file type: {doc_path}")
+                    print(f"    Unsupported file type: {doc_path}")
             else:
-                print(f"  ❌ File not found: {doc_path}")
+                print(f"   File not found: {doc_path}")
         
-        print(f"📊 {len(valid_documents)} valid documents found")
+        print(f" {len(valid_documents)} valid documents found")
         return valid_documents
     
     def create_indexes(self) -> List[str]:
@@ -145,16 +145,16 @@ class BatchIndexingDemo:
             documents = index_config.get("documents", [])
             
             if not documents:
-                print(f"⚠️  No documents specified for index '{index_name}', skipping...")
+                print(f"  No documents specified for index '{index_name}', skipping...")
                 return None
             
             # Validate documents
             valid_documents = self.validate_documents(documents)
             if not valid_documents:
-                print(f"❌ No valid documents found for index '{index_name}'")
+                print(f" No valid documents found for index '{index_name}'")
                 return None
             
-            print(f"\n🚀 Creating index: {index_name}")
+            print(f"\n Creating index: {index_name}")
             print(f"📄 Processing {len(valid_documents)} documents")
             
             # Create index record in database
@@ -181,7 +181,7 @@ class BatchIndexingDemo:
             self.pipeline.process_documents(valid_documents)
             processing_time = time.time() - start_time
             
-            print(f"✅ Index '{index_name}' created successfully!")
+            print(f" Index '{index_name}' created successfully!")
             print(f"   Index ID: {index_id}")
             print(f"   Processing time: {processing_time:.2f} seconds")
             print(f"   Documents processed: {len(valid_documents)}")
@@ -189,7 +189,7 @@ class BatchIndexingDemo:
             return index_id
             
         except Exception as e:
-            print(f"❌ Error creating index '{index_name}': {e}")
+            print(f" Error creating index '{index_name}': {e}")
             import traceback
             traceback.print_exc()
             return None
@@ -200,8 +200,8 @@ class BatchIndexingDemo:
         print("=" * 50)
         
         # Show configuration
-        print(f"📋 Configuration file: {self.config_path}")
-        print(f"📊 Number of indexes to create: {len(self.config.get('indexes', []))}")
+        print(f" Configuration file: {self.config_path}")
+        print(f" Number of indexes to create: {len(self.config.get('indexes', []))}")
         
         # Show pipeline settings
         pipeline_settings = self.config.get("pipeline_settings", {})
@@ -219,7 +219,7 @@ class BatchIndexingDemo:
     
     def run_demo(self):
         """Run the complete batch indexing demo."""
-        print("🚀 LocalGPT Batch Indexing Demo")
+        print(" LocalGPT Batch Indexing Demo")
         print("=" * 50)
         
         # Show demo features
@@ -234,20 +234,20 @@ class BatchIndexingDemo:
         total_time = time.time() - start_time
         
         # Summary
-        print(f"\n📊 Batch Indexing Summary")
+        print(f"\n Batch Indexing Summary")
         print("=" * 50)
-        print(f"✅ Successfully created {len(created_indexes)} indexes")
+        print(f" Successfully created {len(created_indexes)} indexes")
         print(f"⏱️  Total processing time: {total_time:.2f} seconds")
         
         if created_indexes:
-            print(f"\n📋 Created Indexes:")
+            print(f"\n Created Indexes:")
             for i, index_id in enumerate(created_indexes, 1):
                 index_info = self.db.get_index(index_id)
                 if index_info:
                     print(f"   {i}. {index_info['name']} ({index_id[:8]}...)")
                     print(f"      Documents: {len(index_info.get('documents', []))}")
         
-        print(f"\n🎉 Demo completed successfully!")
+        print(f"\n Demo completed successfully!")
         print(f"💡 You can now use these indexes in the LocalGPT interface.")
 
 
@@ -325,9 +325,9 @@ def create_sample_config():
     with open(config_filename, "w") as f:
         json.dump(sample_config, f, indent=2)
     
-    print(f"✅ Sample configuration created: {config_filename}")
+    print(f" Sample configuration created: {config_filename}")
     print(f"📝 Edit this file to customize your batch indexing setup")
-    print(f"🚀 Run: python demo_batch_indexing.py --config {config_filename}")
+    print(f" Run: python demo_batch_indexing.py --config {config_filename}")
 
 
 def main():
@@ -366,7 +366,7 @@ comprehensive processing pipelines.
         return
     
     if not os.path.exists(args.config):
-        print(f"❌ Configuration file not found: {args.config}")
+        print(f" Configuration file not found: {args.config}")
         print(f"💡 Create a sample config with: python {sys.argv[0]} --create-sample-config")
         sys.exit(1)
     
@@ -375,9 +375,9 @@ comprehensive processing pipelines.
         demo.run_demo()
         
     except KeyboardInterrupt:
-        print("\n\n❌ Demo cancelled by user.")
+        print("\n\n Demo cancelled by user.")
     except Exception as e:
-        print(f"❌ Demo failed: {e}")
+        print(f" Demo failed: {e}")
         import traceback
         traceback.print_exc()
 

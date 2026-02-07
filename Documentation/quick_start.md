@@ -4,7 +4,7 @@ _Get up and running in 5 minutes!_
 
 ---
 
-## 🚀 Choose Your Deployment Method
+##  Choose Your Deployment Method
 
 ### Option 1: Docker Deployment (Production Ready) 🐳
 
@@ -277,16 +277,16 @@ htop          # For direct development
 
 ---
 
-## 📊 System Verification
+##  System Verification
 
 Run this comprehensive check:
 
 ```bash
 # Check all endpoints
-curl -f http://localhost:3000 && echo "✅ Frontend OK"
-curl -f http://localhost:8000/health && echo "✅ Backend OK"  
-curl -f http://localhost:8001/models && echo "✅ RAG API OK"
-curl -f http://localhost:11434/api/tags && echo "✅ Ollama OK"
+curl -f http://localhost:3000 && echo " Frontend OK"
+curl -f http://localhost:8000/health && echo " Backend OK"  
+curl -f http://localhost:8001/models && echo " RAG API OK"
+curl -f http://localhost:11434/api/tags && echo " Ollama OK"
 
 # For Docker: Check containers
 docker compose ps
@@ -294,12 +294,12 @@ docker compose ps
 
 ---
 
-## 🎉 Success!
+##  Success!
 
 If you see:
-- ✅ All services responding
-- ✅ Frontend accessible at http://localhost:3000  
-- ✅ No error messages
+-  All services responding
+-  Frontend accessible at http://localhost:3000  
+-  No error messages
 
 You're ready to start using LocalGPT!
 
@@ -317,7 +317,7 @@ rag-system/
 ├── 🐳 start-docker.sh           # Docker deployment script
 ├── 🏃 run_system.py             # Direct development launcher
 ├── 🩺 system_health_check.py    # System verification
-├── 📋 requirements.txt          # Python dependencies
+├──  requirements.txt          # Python dependencies
 ├── 📦 package.json              # Node.js dependencies
 ├── 📁 Documentation/            # Complete documentation
 └── 📁 rag_system/              # Core system code
@@ -327,12 +327,12 @@ rag-system/
 
 - **🏗️ Architecture**: See `Documentation/architecture_overview.md`
 - **🔧 Configuration**: See `Documentation/system_overview.md`  
-- **🚀 Deployment**: See `Documentation/deployment_guide.md`
+- ** Deployment**: See `Documentation/deployment_guide.md`
 - **🐛 Troubleshooting**: See `DOCKER_TROUBLESHOOTING.md`
 
 ---
 
-**Happy RAG-ing! 🚀** 
+**Happy RAG-ing! ** 
 
 ---
 
@@ -370,10 +370,10 @@ python create_index_script.py
 ```
 
 These scripts automatically:
-- ✅ Check prerequisites (Ollama running, Python dependencies)
-- ✅ Validate document formats
-- ✅ Create database entries
-- ✅ Process documents with the RAG pipeline
-- ✅ Generate searchable indexes
+-  Check prerequisites (Ollama running, Python dependencies)
+-  Validate document formats
+-  Create database entries
+-  Process documents with the RAG pipeline
+-  Generate searchable indexes
 
 --- 

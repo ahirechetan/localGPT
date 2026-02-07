@@ -79,10 +79,10 @@ class LateChunkEncoder:
             
             # Check for NaN or infinite values
             if np.isnan(chunk_vec).any() or np.isinf(chunk_vec).any():
-                print(f"⚠️ Warning: Invalid values detected in late chunk embedding for span ({start_char}, {end_char})")
+                print(f" Warning: Invalid values detected in late chunk embedding for span ({start_char}, {end_char})")
                 # Replace invalid values with zeros
                 chunk_vec = np.nan_to_num(chunk_vec, nan=0.0, posinf=0.0, neginf=0.0)
-                print(f"🔄 Replaced invalid values with zeros")
+                print(f" Replaced invalid values with zeros")
             
             vectors.append(chunk_vec)
         return vectors 
