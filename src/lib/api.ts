@@ -1,6 +1,6 @@
 const API_BASE_URL = 'http://localhost:8000';
 
-// 🆕 Simple UUID generator for client-side message IDs
+//  Simple UUID generator for client-side message IDs
 export const generateUUID = () => {
   if (typeof window !== 'undefined' && window.crypto && window.crypto.randomUUID) {
     return window.crypto.randomUUID();
@@ -190,7 +190,7 @@ class ChatAPI {
       aiRerank?: boolean; 
       contextExpand?: boolean; 
       verify?: boolean;
-      // ✨ NEW RETRIEVAL PARAMETERS
+      //  NEW RETRIEVAL PARAMETERS
       retrievalK?: number;
       contextWindowSize?: number;
       rerankerTopK?: number;
@@ -214,7 +214,7 @@ class ChatAPI {
           ...(typeof opts.aiRerank === 'boolean' && { ai_rerank: opts.aiRerank }),
           ...(typeof opts.contextExpand === 'boolean' && { context_expand: opts.contextExpand }),
           ...(typeof opts.verify === 'boolean' && { verify: opts.verify }),
-          // ✨ ADD NEW RETRIEVAL PARAMETERS
+          //  ADD NEW RETRIEVAL PARAMETERS
           ...(typeof opts.retrievalK === 'number' && { retrieval_k: opts.retrievalK }),
           ...(typeof opts.contextWindowSize === 'number' && { context_window_size: opts.contextWindowSize }),
           ...(typeof opts.rerankerTopK === 'number' && { reranker_top_k: opts.rerankerTopK }),
@@ -356,11 +356,11 @@ class ChatAPI {
         }
         totalSize += file.size;
         const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-        console.log(`📄 File ${file.name}: ${sizeMB}MB (${file.size} bytes), type: ${file.type}`);
+        console.log(` File ${file.name}: ${sizeMB}MB (${file.size} bytes), type: ${file.type}`);
       }
       
       const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
-      console.log(`📄 Total upload size: ${totalSizeMB}MB`);
+      console.log(` Total upload size: ${totalSizeMB}MB`);
       
       if (totalSize > 50 * 1024 * 1024) { // 50MB limit
         throw new Error(`Total file size ${totalSizeMB}MB exceeds 50MB limit`);
@@ -555,7 +555,7 @@ class ChatAPI {
       aiRerank?: boolean;
       contextExpand?: boolean;
       verify?: boolean;
-      // ✨ NEW RETRIEVAL PARAMETERS
+      //  NEW RETRIEVAL PARAMETERS
       retrievalK?: number;
       contextWindowSize?: number;
       rerankerTopK?: number;
@@ -577,7 +577,7 @@ class ChatAPI {
     if (typeof aiRerank === 'boolean') payload.ai_rerank = aiRerank;
     if (typeof contextExpand === 'boolean') payload.context_expand = contextExpand;
     if (typeof verify === 'boolean') payload.verify = verify;
-    // ✨ ADD NEW RETRIEVAL PARAMETERS TO PAYLOAD
+    //  ADD NEW RETRIEVAL PARAMETERS TO PAYLOAD
     if (typeof retrievalK === 'number') payload.retrieval_k = retrievalK;
     if (typeof contextWindowSize === 'number') payload.context_window_size = contextWindowSize;
     if (typeof rerankerTopK === 'number') payload.reranker_top_k = rerankerTopK;

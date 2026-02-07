@@ -129,7 +129,7 @@ class IndexCreator:
             
             elif choice == "4":
                 if documents:
-                    print(f"\n📄 Selected documents ({len(documents)}):")
+                    print(f"\n Selected documents ({len(documents)}):")
                     for i, doc in enumerate(documents, 1):
                         print(f"  {i}. {doc}")
                 else:
@@ -285,7 +285,7 @@ class IndexCreator:
                 return
             
             print(f" Creating batch index: {index_name}")
-            print(f"📄 Processing {len(valid_documents)} documents...")
+            print(f" Processing {len(valid_documents)} documents...")
             
             # Create index
             index_id = self.db.create_index(
@@ -336,7 +336,7 @@ def create_sample_batch_config():
     with open("batch_indexing_config.json", "w") as f:
         json.dump(sample_config, f, indent=2)
     
-    print("📄 Sample batch configuration created: batch_indexing_config.json")
+    print(" Sample batch configuration created: batch_indexing_config.json")
 
 
 def main():

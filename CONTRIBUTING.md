@@ -105,7 +105,7 @@ We use a feature branch workflow:
 - Include reproduction steps
 - Add tests to prevent regression
 
-### ✨ New Features
+###  New Features
 - Discuss in issues before implementing
 - Follow existing architecture patterns
 - Include comprehensive tests
@@ -303,7 +303,7 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
     """
 ```
 
-## 🔧 Development Tools
+##  Development Tools
 
 ### Recommended VS Code Extensions
 ```json

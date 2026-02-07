@@ -265,7 +265,7 @@ class ChatDatabase:
         conn.close()
         
         if deleted_count > 0:
-            print(f"✨ Cleaned up {deleted_count} empty sessions")
+            print(f" Cleaned up {deleted_count} empty sessions")
         
         return deleted_count
     
@@ -309,7 +309,7 @@ class ChatDatabase:
         doc_id = cursor.lastrowid
         conn.commit()
         conn.close()
-        print(f"📄 Added document '{file_path}' to session {session_id[:8]}...")
+        print(f" Added document '{file_path}' to session {session_id[:8]}...")
         return doc_id
 
     def get_documents_for_session(self, session_id: str) -> List[str]:

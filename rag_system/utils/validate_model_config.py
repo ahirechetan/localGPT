@@ -100,14 +100,14 @@ def print_model_usage_map():
     for model_type, model_name in EXTERNAL_MODELS.items():
         print(f"  {model_type.replace('_', ' ').title()}: {model_name}")
     
-    print_section("📍 Model Usage by Component")
+    print_section(" Model Usage by Component")
     usage_map = {
         "🔤 Text Embedding": {
             "Model": EXTERNAL_MODELS["embedding_model"],
             "Used In": ["Retrieval Pipeline", "Semantic Cache", "Dense Retrieval", "Late Chunking"],
             "Component": "QwenEmbedder (representations.py)"
         },
-        "🧠 Text Generation": {
+        " Text Generation": {
             "Model": OLLAMA_CONFIG["generation_model"],
             "Used In": ["Agent Loop", "Answer Synthesis", "Query Decomposition", "Verification"],
             "Component": "OllamaClient"

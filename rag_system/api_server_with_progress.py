@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 ACTIVE_PROGRESS_SESSIONS: Dict[str, Dict[str, Any]] = {}
 
 # --- Global Singleton for the RAG Agent ---
-print("🧠 Initializing RAG Agent... (This may take a moment)")
+print(" Initializing RAG Agent... (This may take a moment)")
 RAG_AGENT = get_agent()
 if RAG_AGENT is None:
     print(" Critical error: RAG Agent could not be initialized. Exiting.")
@@ -419,8 +419,8 @@ def start_enhanced_server(port=8000):
 
     with ReusableTCPServer(("", port), EnhancedRagApiHandler) as httpd:
         print(f" Starting Enhanced RAG API server on port {port}")
-        print(f"💬 Chat endpoint: http://localhost:{port}/chat")
-        print(f"✨ Indexing endpoint: http://localhost:{port}/index")
+        print(f" Chat endpoint: http://localhost:{port}/chat")
+        print(f" Indexing endpoint: http://localhost:{port}/index")
         print(f" Progress endpoint: http://localhost:{port}/progress")
         print(f"🌊 Progress stream: http://localhost:{port}/stream")
         print(f"📈 Real-time progress tracking enabled via Server-Sent Events!")

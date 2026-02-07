@@ -155,7 +155,7 @@ class BatchIndexingDemo:
                 return None
             
             print(f"\n Creating index: {index_name}")
-            print(f"📄 Processing {len(valid_documents)} documents")
+            print(f" Processing {len(valid_documents)} documents")
             
             # Create index record in database
             index_metadata = {

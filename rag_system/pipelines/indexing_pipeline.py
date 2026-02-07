@@ -19,12 +19,12 @@ class IndexingPipeline:
         # Chunker selection: docling (token-based) or legacy (character-based)
         chunker_mode = config.get("chunker_mode", "docling")
         
-        # 🔧 Get chunking configuration from frontend parameters
+        #  Get chunking configuration from frontend parameters
         chunking_config = config.get("chunking", {})
         chunk_size = chunking_config.get("chunk_size", config.get("chunk_size", 1500))
         chunk_overlap = chunking_config.get("chunk_overlap", config.get("chunk_overlap", 200))
         
-        print(f"🔧 CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}, Mode: {chunker_mode}")
+        print(f" CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}, Mode: {chunker_mode}")
         
         if chunker_mode == "docling":
             try:
@@ -34,7 +34,7 @@ class IndexingPipeline:
                     overlap=config.get("overlap_sentences", 1),
                     tokenizer_model=config.get("embedding_model_name", "qwen3-embedding-0.6b"),
                 )
-                print("🪄 Using DoclingChunker for high-recall sentence packing.")
+                print(" Using DoclingChunker for high-recall sentence packing.")
             except Exception as e:
                 print(f"  Failed to initialise DoclingChunker: {e}. Falling back to legacy chunker.")
                 self.chunker = MarkdownRecursiveChunker(
@@ -91,14 +91,14 @@ class IndexingPipeline:
             )
 
         if self.config.get("contextual_enricher", {}).get("enabled"):
-            # 🔧 Use frontend enrich_model parameter if provided
+            #  Use frontend enrich_model parameter if provided
             enrichment_model = (
                 self.config.get("enrich_model") or  # Frontend parameter
                 self.config.get("enrichment_model_name") or  # Alternative config key
                 self.ollama_config.get("enrichment_model") or  # Default from ollama config
                 self.ollama_config["generation_model"]  # Final fallback
             )
-            print(f"🔧 ENRICHMENT MODEL: Using '{enrichment_model}' for contextual enrichment")
+            print(f" ENRICHMENT MODEL: Using '{enrichment_model}' for contextual enrichment")
             
             self.contextual_enricher = ContextualEnricher(
                 llm_client=self.llm_client,

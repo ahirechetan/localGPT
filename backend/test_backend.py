@@ -25,7 +25,7 @@ def test_health_endpoint():
 
 def test_chat_endpoint():
     """Test the chat endpoint"""
-    print("\n💬 Testing chat endpoint...")
+    print("\n Testing chat endpoint...")
     
     test_message = {
         "message": "Say 'Hello World' and nothing else.",

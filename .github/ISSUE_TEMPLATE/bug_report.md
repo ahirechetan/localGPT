@@ -51,7 +51,7 @@ Please include relevant error messages or logs:
 [Paste error logs here]
 ```
 
-## 🔧 Configuration
+##  Configuration
 - Deployment method: [Docker / Direct Python]
 - Models used: [e.g. qwen3:0.6b, qwen3:8b]
 - Document types: [e.g. PDF, DOCX, TXT]

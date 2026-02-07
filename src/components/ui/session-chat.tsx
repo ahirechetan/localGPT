@@ -54,7 +54,7 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
   // Provence pruning toggle
   const [provencePrune, setProvencePrune] = useState<boolean>(false)
   
-  // ✨ NEW RETRIEVAL PARAMETERS
+  //  NEW RETRIEVAL PARAMETERS
   const [retrievalK, setRetrievalK] = useState<number>(20)
   const [contextWindowSize, setContextWindowSize] = useState<number>(1)
   const [rerankerTopK, setRerankerTopK] = useState<number>(10)
@@ -245,7 +245,7 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
             contextExpand: enableContextExpand,
             verify: enableVerify,
             model: selectedModel,
-            // ✨ NEW RETRIEVAL PARAMETERS
+            //  NEW RETRIEVAL PARAMETERS
             retrievalK,
             contextWindowSize,
             rerankerTopK,
@@ -460,7 +460,7 @@ export const SessionChat = forwardRef<SessionChatRef, SessionChatProps>(({
           contextExpand: enableContextExpand, 
           verify: enableVerify,
           model: selectedModel,
-          // ✨ NEW RETRIEVAL PARAMETERS
+          //  NEW RETRIEVAL PARAMETERS
           retrievalK,
           contextWindowSize,
           rerankerTopK,

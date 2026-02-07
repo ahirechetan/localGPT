@@ -82,7 +82,7 @@ export function ChatInput({
     const newFiles: AttachedFile[] = []
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
-      console.log('🔧 Frontend: File selected:', {
+      console.log(' Frontend: File selected:', {
         name: file.name,
         size: file.size,
         type: file.type,
@@ -110,7 +110,7 @@ export function ChatInput({
           file: file,
         })
       } else {
-        console.log('🔧 Frontend: File rejected - unsupported format:', file.type);
+        console.log(' Frontend: File rejected - unsupported format:', file.type);
       }
     }
 

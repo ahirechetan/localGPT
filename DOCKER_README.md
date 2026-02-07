@@ -91,7 +91,7 @@ open http://localhost:3000
 ### Shared Between Containers
 All containers share access to document storage and databases through bind mounts.
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables (docker.env)
 ```bash

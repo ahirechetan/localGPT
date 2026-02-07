@@ -176,7 +176,7 @@ Open your browser to: **http://localhost:3000**
 
 ---
 
-## 🔧 Management Commands
+##  Management Commands
 
 ### Docker Commands
 
@@ -306,8 +306,8 @@ You're ready to start using LocalGPT!
 ### What's Next?
 
 1. **📚 Upload Documents**: Add your PDF files to create indexes
-2. **💬 Start Chatting**: Ask questions about your documents
-3. **🔧 Customize**: Explore different models and settings
+2. ** Start Chatting**: Ask questions about your documents
+3. ** Customize**: Explore different models and settings
 4. **📖 Learn More**: Check the full documentation below
 
 ### 📁 Key Files
@@ -326,7 +326,7 @@ rag-system/
 ### 📖 Additional Resources
 
 - **🏗️ Architecture**: See `Documentation/architecture_overview.md`
-- **🔧 Configuration**: See `Documentation/system_overview.md`  
+- ** Configuration**: See `Documentation/system_overview.md`  
 - ** Deployment**: See `Documentation/deployment_guide.md`
 - **🐛 Troubleshooting**: See `DOCKER_TROUBLESHOOTING.md`
 

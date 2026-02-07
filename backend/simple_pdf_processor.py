@@ -36,7 +36,7 @@ class SimplePDFProcessor:
     def extract_text_from_pdf(self, pdf_bytes: bytes) -> str:
         """Extract text from PDF bytes"""
         try:
-            print(f"📄 Starting PDF text extraction ({len(pdf_bytes)} bytes)")
+            print(f" Starting PDF text extraction ({len(pdf_bytes)} bytes)")
             pdf_file = BytesIO(pdf_bytes)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             
@@ -44,7 +44,7 @@ class SimplePDFProcessor:
             
             text = ""
             for page_num, page in enumerate(pdf_reader.pages):
-                print(f"📄 Processing page {page_num + 1}")
+                print(f" Processing page {page_num + 1}")
                 try:
                     page_text = page.extract_text()
                     if page_text.strip():
@@ -55,7 +55,7 @@ class SimplePDFProcessor:
                     print(f" Error on page {page_num + 1}: {str(page_error)}")
                     continue
             
-            print(f"📄 Total extracted text: {len(text)} characters")
+            print(f" Total extracted text: {len(text)} characters")
             return text.strip()
             
         except Exception as e:
@@ -65,7 +65,7 @@ class SimplePDFProcessor:
     
     def process_pdf(self, pdf_bytes: bytes, filename: str, session_id: str) -> Dict[str, Any]:
         """Process a PDF file and store in database"""
-        print(f"📄 Processing PDF: {filename}")
+        print(f" Processing PDF: {filename}")
         
         # Extract text
         text = self.extract_text_from_pdf(pdf_bytes)

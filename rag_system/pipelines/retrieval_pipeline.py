@@ -106,7 +106,7 @@ class RetrievalPipeline:
     def _get_bm25_retriever(self):
         if self.bm25_retriever is None and self.retriever_configs.get("bm25", {}).get("enabled"):
             try:
-                print(f"🔧 Lazily initializing BM25 retriever...")
+                print(f" Lazily initializing BM25 retriever...")
                 self.bm25_retriever = BM25Retriever(
                     index_path=self.storage_config["bm25_path"],
                     index_name=self.retriever_configs["bm25"]["index_name"]
@@ -147,11 +147,11 @@ class RetrievalPipeline:
                         strategy = reranker_config.get("strategy", "qwen")
 
                         if strategy == "rerankers-lib":
-                            print(f"🔧 Initialising Answer.AI ColBERT reranker ({model_name}) via rerankers lib…")
+                            print(f" Initialising Answer.AI ColBERT reranker ({model_name}) via rerankers lib…")
                             from rerankers import Reranker
                             self.ai_reranker = Reranker(model_name, model_type="colbert")
                         else:
-                            print(f"🔧 Lazily initializing Qwen reranker ({model_name})…")
+                            print(f" Lazily initializing Qwen reranker ({model_name})…")
                             self.ai_reranker = QwenReranker(model_name=model_name)
 
                         print(" AI reranker initialized successfully.")
@@ -334,7 +334,7 @@ ORIGINAL QUESTION: "{query}"
                 except Exception as e:
                     print(f"  Late-chunk merge failed for chunk {doc.get('chunk_id')}: {e}")
             if merged_count:
-                print(f"🪄 Late-chunk merging applied to {merged_count} retrieved chunks.")
+                print(f" Late-chunk merging applied to {merged_count} retrieved chunks.")
 
         # --- AI Reranking Step ---
         ai_reranker = self._get_ai_reranker()
@@ -566,7 +566,7 @@ ORIGINAL QUESTION: "{query}"
         """Switch embedding model at runtime and clear cached objects so they re-initialize."""
         if self.config.get("embedding_model_name") == model_name:
             return  # nothing to do
-        print(f"🔧 RetrievalPipeline switching embedding model to '{model_name}' (was '{self.config.get('embedding_model_name')}')")
+        print(f" RetrievalPipeline switching embedding model to '{model_name}' (was '{self.config.get('embedding_model_name')}')")
         self.config["embedding_model_name"] = model_name
         # Reset caches so new instances are built on demand
         self.text_embedder = None

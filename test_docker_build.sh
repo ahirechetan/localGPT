@@ -65,7 +65,7 @@ build_and_test() {
 # Main execution
 check_docker
 
-echo "🧹 Cleaning up old containers and images..."
+echo " Cleaning up old containers and images..."
 docker container prune -f >/dev/null 2>&1
 docker image prune -f >/dev/null 2>&1
 

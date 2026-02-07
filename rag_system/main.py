@@ -41,7 +41,7 @@ EXTERNAL_MODELS = {
 }
 
 # ============================================================================
-# 🔧 PIPELINE CONFIGURATIONS
+#  PIPELINE CONFIGURATIONS
 # ============================================================================
 
 PIPELINE_CONFIGS = {
@@ -96,12 +96,12 @@ PIPELINE_CONFIGS = {
         "context_window_size": 0,
         "semantic_cache_threshold": 0.98,
         "cache_scope": "global",
-        # 🔧 Contextual enrichment configuration
+        #  Contextual enrichment configuration
         "contextual_enricher": {
             "enabled": True,
             "window_size": 1
         },
-        # 🔧 Indexing configuration
+        #  Indexing configuration
         "indexing": {
             "embedding_batch_size": 50,
             "enrichment_batch_size": 10,
@@ -128,12 +128,12 @@ PIPELINE_CONFIGS = {
         "verification": {"enabled": False},
         "retrieval_k": 10,
         "context_window_size": 0,
-        # 🔧 Contextual enrichment (disabled for speed)
+        #  Contextual enrichment (disabled for speed)
         "contextual_enricher": {
             "enabled": False,
             "window_size": 1
         },
-        # 🔧 Indexing configuration
+        #  Indexing configuration
         "indexing": {
             "embedding_batch_size": 100,
             "enrichment_batch_size": 50,
@@ -300,7 +300,7 @@ def main():
             print("Usage: python main.py chat <query>")
             return
         query = " ".join(sys.argv[2:])
-        # 🆕 Print the result for command-line usage
+        #  Print the result for command-line usage
         print(run_chat(query))
     elif command == "show_graph":
         show_graph()

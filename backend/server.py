@@ -5,7 +5,7 @@ import cgi
 import os
 import uuid
 from urllib.parse import urlparse, parse_qs
-import requests  # 🆕 Import requests for making HTTP calls
+import requests  #  Import requests for making HTTP calls
 import sys
 from datetime import datetime
 
@@ -29,7 +29,7 @@ from simple_pdf_processor import initialize_simple_pdf_processor
 from typing import List, Dict, Any
 import re
 
-# 🆕 Reusable TCPServer with address reuse enabled
+#  Reusable TCPServer with address reuse enabled
 class ReusableTCPServer(socketserver.TCPServer):
     allow_reuse_address = True
 
@@ -341,7 +341,7 @@ class ChatHandler(http.server.BaseHTTPRequestHandler):
     
     def _should_use_rag(self, message: str, idx_ids: List[str]) -> bool:
         """
-        🧠 ENHANCED: Determine if a query should use RAG pipeline using document overviews.
+         ENHANCED: Determine if a query should use RAG pipeline using document overviews.
         
         Args:
             message: The user's query
@@ -1081,7 +1081,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
 
 def main():
     """Main function to initialize and start the server"""
-    PORT = 8000  # 🆕 Define port
+    PORT = 8000  #  Define port
     try:
         # Initialize the database
         print(" Database initialized successfully")
@@ -1089,7 +1089,7 @@ def main():
         # Initialize the PDF processor
         try:
             pdf_module.initialize_simple_pdf_processor()
-            print("📄 Initializing simple PDF processing...")
+            print(" Initializing simple PDF processing...")
             if pdf_module.simple_pdf_processor:
                 print(" Simple PDF processor initialized")
             else:
@@ -1107,17 +1107,17 @@ def main():
             print(" PDF processing disabled - server will run without RAG functionality")
         
         # Cleanup empty sessions on startup
-        print("🧹 Cleaning up empty sessions...")
+        print(" Cleaning up empty sessions...")
         cleanup_count = db.cleanup_empty_sessions()
         if cleanup_count > 0:
-            print(f"✨ Cleaned up {cleanup_count} empty sessions")
+            print(f" Cleaned up {cleanup_count} empty sessions")
         else:
-            print("✨ No empty sessions to clean up")
+            print(" No empty sessions to clean up")
 
         # Start the server
         with ReusableTCPServer(("", PORT), ChatHandler) as httpd:
             print(f" Starting localGPT backend server on port {PORT}")
-            print(f"📍 Chat endpoint: http://localhost:{PORT}/chat")
+            print(f" Chat endpoint: http://localhost:{PORT}/chat")
             print(f" Health check: http://localhost:{PORT}/health")
             
             # Test Ollama connection
@@ -1132,7 +1132,7 @@ def main():
                 print("   Run: ollama serve")
             
             print(f"\n Frontend should connect to: http://localhost:{PORT}")
-            print("💬 Ready to chat!\n")
+            print(" Ready to chat!\n")
             
             httpd.serve_forever()
     except KeyboardInterrupt:

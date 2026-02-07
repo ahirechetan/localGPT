@@ -41,7 +41,7 @@ class SentencePruner:
             try:
                 from transformers import AutoModel  # local import to keep base deps light
 
-                print("🔧 Loading Provence sentence-pruning model …")
+                print(" Loading Provence sentence-pruning model …")
                 SentencePruner._model = AutoModel.from_pretrained(
                     self.model_name,
                     trust_remote_code=True,

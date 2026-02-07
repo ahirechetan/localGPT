@@ -39,7 +39,7 @@ Watch this [video](https://youtu.be/JTbtGH3secI) to get started with LocalGPT.
 |------|--------------|------|
 | ![](Documentation/images/Home.png) | ![](Documentation/images/Index%20Creation.png) | ![](Documentation/images/Retrieval%20Process.png) |
 
-## ✨ Features
+##  Features
 
 - **Utmost Privacy**: Your data remains on your computer, ensuring 100% security.
 - **Versatile Model Support**: Seamlessly integrate a variety of open-source models via Ollama.
@@ -380,7 +380,7 @@ print(response.json()['response'])
 
 ---
 
-## 🔧 Configuration
+##  Configuration
 
 ### Model Configuration
 
@@ -855,7 +855,7 @@ python run_system.py --mode dev
 
 1. **🐛 Report Bugs**: Use our [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
 2. **💡 Request Features**: Use our [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
-3. **🔧 Submit Code**: Follow our [development workflow](CONTRIBUTING.md#development-workflow)
+3. ** Submit Code**: Follow our [development workflow](CONTRIBUTING.md#development-workflow)
 4. **📚 Improve Docs**: Help make our documentation better
 
 ### 📖 Detailed Guidelines
@@ -871,7 +871,7 @@ For comprehensive contributing guidelines, including:
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. For models, please check their respective licenses.
 

@@ -44,4 +44,4 @@ class OverviewBuilder:
         with open(self.out_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-        logger.info(f"📄 Overview generated for {doc_id} (stored in {self.out_path})") 
+        logger.info(f" Overview generated for {doc_id} (stored in {self.out_path})") 

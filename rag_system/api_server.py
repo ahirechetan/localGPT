@@ -29,7 +29,7 @@ INDEXING_PIPELINE = get_indexing_pipeline(AGENT_MODE)
 # --- Global Singleton for the RAG Agent ---
 # The agent is initialized once when the server starts.
 # This avoids reloading all the models on every request.
-print("🧠 Initializing RAG Agent with MAXIMUM ACCURACY... (This may take a moment)")
+print(" Initializing RAG Agent with MAXIMUM ACCURACY... (This may take a moment)")
 if RAG_AGENT is None:
     print(" Critical error: RAG Agent could not be initialized. Exiting.")
     exit(1)
@@ -41,7 +41,7 @@ print(" RAG Agent initialized successfully with MAXIMUM ACCURACY.")
 
 def _apply_index_embedding_model(idx_ids):
     """Ensure retrieval pipeline uses the embedding model stored with the first index."""
-    debug_info = f"🔧 _apply_index_embedding_model called with idx_ids: {idx_ids}\n"
+    debug_info = f" _apply_index_embedding_model called with idx_ids: {idx_ids}\n"
     
     if not idx_ids:
         debug_info += " No index IDs provided\n"
@@ -50,15 +50,15 @@ def _apply_index_embedding_model(idx_ids):
         return
     try:
         idx = db.get_index(idx_ids[0])
-        debug_info += f"🔧 Retrieved index: {idx.get('id')} with metadata: {idx.get('metadata', {})}\n"
+        debug_info += f" Retrieved index: {idx.get('id')} with metadata: {idx.get('metadata', {})}\n"
         model = (idx.get("metadata") or {}).get("embedding_model")
-        debug_info += f"🔧 Embedding model from metadata: {model}\n"
+        debug_info += f" Embedding model from metadata: {model}\n"
         if model:
             rp = RAG_AGENT.retrieval_pipeline
             current_model = rp.config.get("embedding_model_name")
-            debug_info += f"🔧 Current embedding model: {current_model}\n"
+            debug_info += f" Current embedding model: {current_model}\n"
             rp.update_embedding_model(model)
-            debug_info += f"🔧 Updated embedding model to: {model}\n"
+            debug_info += f" Updated embedding model to: {model}\n"
         else:
             debug_info += " No embedding model found in metadata\n"
     except Exception as e:
@@ -157,7 +157,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
             ctx_expand_flag = data.get('context_expand')
             verify_flag = data.get('verify')
             
-            # ✨ NEW RETRIEVAL PARAMETERS
+            #  NEW RETRIEVAL PARAMETERS
             retrieval_k = data.get('retrieval_k', 20)
             context_window_size = data.get('context_window_size', 1)
             reranker_top_k = data.get('reranker_top_k', 10)
@@ -216,7 +216,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 table_name = _get_table_name_for_session(session_id)
 
             # Decide execution path
-            print(f"🔧 Force RAG flag: {force_rag}")
+            print(f" Force RAG flag: {force_rag}")
             if force_rag:
                 # --- Apply runtime overrides manually because we skip Agent.run()
                 rp_cfg = RAG_AGENT.retrieval_pipeline.config
@@ -261,11 +261,11 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                     _apply_index_embedding_model(idx_ids)
                     RAG_AGENT.load_overviews_for_indexes(idx_ids)
 
-                # 🔧 Set index-specific overview path
+                #  Set index-specific overview path
                 if session_id:
                     rp_cfg["overview_path"] = f"index_store/overviews/{session_id}.jsonl"
 
-                # 🔧 Configure late chunking
+                #  Configure late chunking
                 rp_cfg.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
 
                 result = RAG_AGENT.run(
@@ -316,7 +316,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
             ctx_expand_flag = data.get('context_expand')
             verify_flag = data.get('verify')
             
-            # ✨ NEW RETRIEVAL PARAMETERS
+            #  NEW RETRIEVAL PARAMETERS
             retrieval_k = data.get('retrieval_k', 20)
             context_window_size = data.get('context_window_size', 1)
             reranker_top_k = data.get('reranker_top_k', 10)
@@ -419,11 +419,11 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                         idx_ids = db.get_indexes_for_session(session_id)
                         _apply_index_embedding_model(idx_ids)
 
-                    # 🔧 Set index-specific overview path so each index writes separate file
+                    #  Set index-specific overview path so each index writes separate file
                     if session_id:
                         rp_cfg["overview_path"] = f"index_store/overviews/{session_id}.jsonl"
 
-                    # 🔧 Configure late chunking
+                    #  Configure late chunking
                     rp_cfg.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
 
                     # Straight retrieval pipeline with streaming events
@@ -447,11 +447,11 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                         _apply_index_embedding_model(idx_ids)
                         RAG_AGENT.load_overviews_for_indexes(idx_ids)
 
-                    # 🔧 Set index-specific overview path
+                    #  Set index-specific overview path
                     if session_id:
                         rp_cfg["overview_path"] = f"index_store/overviews/{session_id}.jsonl"
 
-                    # 🔧 Configure late chunking
+                    #  Configure late chunking
                     rp_cfg.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
 
                     final_result = RAG_AGENT.run(
@@ -463,7 +463,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                         ai_rerank=ai_rerank_flag,
                         context_expand=ctx_expand_flag,
                         verify=verify_flag,
-                        # ✨ NEW RETRIEVAL PARAMETERS
+                        #  NEW RETRIEVAL PARAMETERS
                         retrieval_k=retrieval_k,
                         context_window_size=context_window_size,
                         reranker_top_k=reranker_top_k,
@@ -514,7 +514,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
             enable_latechunk = bool(data.get("enable_latechunk", False))
             enable_docling_chunk = bool(data.get("enable_docling_chunk", False))
             
-            # 🆕 NEW CONFIGURATION OPTIONS:
+            #  NEW CONFIGURATION OPTIONS:
             chunk_size = int(data.get("chunk_size", 512))
             chunk_overlap = int(data.get("chunk_overlap", 64))
             retrieval_mode = data.get("retrieval_mode", "hybrid")
@@ -545,53 +545,53 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 config_override["storage"]["text_table_name"] = table_name
                 config_override.setdefault("retrievers", {}).setdefault("dense", {})["lancedb_table_name"] = table_name
                 
-                # 🔧 Configure late chunking
+                #  Configure late chunking
                 if enable_latechunk:
                     config_override["retrievers"].setdefault("latechunk", {})["enabled"] = True
                 else:
                     # ensure disabled if not requested
                     config_override["retrievers"].setdefault("latechunk", {})["enabled"] = False
                 
-                # 🔧 Configure docling chunking
+                #  Configure docling chunking
                 if enable_docling_chunk:
                     config_override["chunker_mode"] = "docling"
                 
-                # 🔧 Configure contextual enrichment (THIS WAS MISSING!)
+                #  Configure contextual enrichment (THIS WAS MISSING!)
                 config_override.setdefault("contextual_enricher", {})
                 config_override["contextual_enricher"]["enabled"] = enable_enrich
                 config_override["contextual_enricher"]["window_size"] = window_size
                 
-                # 🔧 Configure indexing batch sizes
+                #  Configure indexing batch sizes
                 config_override.setdefault("indexing", {})
                 config_override["indexing"]["embedding_batch_size"] = batch_size_embed
                 config_override["indexing"]["enrichment_batch_size"] = batch_size_enrich
                 
-                # 🔧 Configure chunking parameters
+                #  Configure chunking parameters
                 config_override.setdefault("chunking", {})
                 config_override["chunking"]["chunk_size"] = chunk_size
                 config_override["chunking"]["chunk_overlap"] = chunk_overlap
                 
-                # 🔧 Configure embedding model if specified
+                #  Configure embedding model if specified
                 if embedding_model:
                     config_override["embedding_model_name"] = embedding_model
                 
-                # 🔧 Configure enrichment model if specified
+                #  Configure enrichment model if specified
                 if enrich_model:
                     config_override["enrich_model"] = enrich_model
                 
-                # 🔧 Overview model (can differ from enrichment)
+                #  Overview model (can differ from enrichment)
                 if overview_model:
                     config_override["overview_model_name"] = overview_model
                 
-                print(f"🔧 INDEXING CONFIG: Contextual Enrichment: {enable_enrich}, Window Size: {window_size}")
-                print(f"🔧 CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}")
-                print(f"🔧 MODEL CONFIG: Embedding: {embedding_model or 'default'}, Enrichment: {enrich_model or 'default'}")
+                print(f" INDEXING CONFIG: Contextual Enrichment: {enable_enrich}, Window Size: {window_size}")
+                print(f" CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}")
+                print(f" MODEL CONFIG: Embedding: {embedding_model or 'default'}, Enrichment: {enrich_model or 'default'}")
                 
-                # 🔧 Set index-specific overview path so each index writes separate file
+                #  Set index-specific overview path so each index writes separate file
                 if session_id:
                     config_override["overview_path"] = f"index_store/overviews/{session_id}.jsonl"
 
-                # 🔧 Configure late chunking
+                #  Configure late chunking
                 config_override.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
 
                 # Create a temporary pipeline instance with the overridden config
@@ -606,50 +606,50 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
                 import copy
                 config_override = copy.deepcopy(INDEXING_PIPELINE.config)
                 
-                # 🔧 Configure late chunking
+                #  Configure late chunking
                 if enable_latechunk:
                     config_override.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
                 
-                # 🔧 Configure docling chunking
+                #  Configure docling chunking
                 if enable_docling_chunk:
                     config_override["chunker_mode"] = "docling"
                 
-                # 🔧 Configure contextual enrichment (THIS WAS MISSING!)
+                #  Configure contextual enrichment (THIS WAS MISSING!)
                 config_override.setdefault("contextual_enricher", {})
                 config_override["contextual_enricher"]["enabled"] = enable_enrich
                 config_override["contextual_enricher"]["window_size"] = window_size
                 
-                # 🔧 Configure indexing batch sizes
+                #  Configure indexing batch sizes
                 config_override.setdefault("indexing", {})
                 config_override["indexing"]["embedding_batch_size"] = batch_size_embed
                 config_override["indexing"]["enrichment_batch_size"] = batch_size_enrich
                 
-                # 🔧 Configure chunking parameters
+                #  Configure chunking parameters
                 config_override.setdefault("chunking", {})
                 config_override["chunking"]["chunk_size"] = chunk_size
                 config_override["chunking"]["chunk_overlap"] = chunk_overlap
                 
-                # 🔧 Configure embedding model if specified
+                #  Configure embedding model if specified
                 if embedding_model:
                     config_override["embedding_model_name"] = embedding_model
                 
-                # 🔧 Configure enrichment model if specified
+                #  Configure enrichment model if specified
                 if enrich_model:
                     config_override["enrich_model"] = enrich_model
                 
-                # 🔧 Overview model (can differ from enrichment)
+                #  Overview model (can differ from enrichment)
                 if overview_model:
                     config_override["overview_model_name"] = overview_model
                 
-                print(f"🔧 INDEXING CONFIG: Contextual Enrichment: {enable_enrich}, Window Size: {window_size}")
-                print(f"🔧 CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}")
-                print(f"🔧 MODEL CONFIG: Embedding: {embedding_model or 'default'}, Enrichment: {enrich_model or 'default'}")
+                print(f" INDEXING CONFIG: Contextual Enrichment: {enable_enrich}, Window Size: {window_size}")
+                print(f" CHUNKING CONFIG: Size: {chunk_size}, Overlap: {chunk_overlap}")
+                print(f" MODEL CONFIG: Embedding: {embedding_model or 'default'}, Enrichment: {enrich_model or 'default'}")
                 
-                # 🔧 Set index-specific overview path so each index writes separate file
+                #  Set index-specific overview path so each index writes separate file
                 if session_id:
                     config_override["overview_path"] = f"index_store/overviews/{session_id}.jsonl"
 
-                # 🔧 Configure late chunking
+                #  Configure late chunking
                 config_override.setdefault("retrievers", {}).setdefault("latechunk", {})["enabled"] = True
 
                 # Create temporary pipeline with overridden config
@@ -748,8 +748,8 @@ def start_server(port=8001):
 
     with ReusableTCPServer(("", port), AdvancedRagApiHandler) as httpd:
         print(f" Starting Advanced RAG API server on port {port}")
-        print(f"💬 Chat endpoint: http://localhost:{port}/chat")
-        print(f"✨ Indexing endpoint: http://localhost:{port}/index")
+        print(f" Chat endpoint: http://localhost:{port}/chat")
+        print(f" Indexing endpoint: http://localhost:{port}/index")
         httpd.serve_forever()
 
 if __name__ == "__main__":

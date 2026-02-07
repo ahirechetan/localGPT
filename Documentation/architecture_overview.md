@@ -63,7 +63,7 @@ flowchart LR
    2. **AI Reranker** (HF model) sorts snippets.
    3. **Answer Synthesiser** calls **Ollama** to write the final answer.
 5. Answers can be **Verified** for grounding (optional flag).
-6. Index-building is an offline path triggered from the UI — PDF/📄 files are chunked, embedded and stored in LanceDB.
+6. Index-building is an offline path triggered from the UI — PDF/ files are chunked, embedded and stored in LanceDB.
 
 ---
 
